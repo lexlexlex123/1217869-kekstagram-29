@@ -1,7 +1,7 @@
 const choiceMessage = () => {
-  let i1 = Math.trunc(Math.random()*6);
-  let i2 = Math.trunc(Math.random()*5);
-  let string = [
+  const i1 = Math.trunc(Math.random() * 6);
+  const i2 = Math.trunc(Math.random() * 5);
+  const string = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
     'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -10,55 +10,50 @@ const choiceMessage = () => {
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
 
-  let string1 = string[i1];
-  string.splice(i1, 1);
-  let string2 = string[i2];
+  const string1 = string[i1];
+  const string2 = string.splice(i1, 1)[i2];
 
-  let count = Math.trunc(Math.random()*2 + 1);
+  const count = Math.trunc(Math.random() * 2 + 1);
   if (count === 1) {
-    return string1
+    return string1;
   }
   if (count === 2) {
-    return string1+'\n'+string2;
+    return `${string1}'\n'${string2}`;
   }
-}
+};
 
 const choiceName = () => {
-  let choice = Math.trunc(Math.random()*6);
-  let names = ['Александр', 'Андрей', 'Ольга', 'Диана', 'Петр', 'Ксения'];
-  return names[choice]
-}
+  const choice = Math.trunc(Math.random() * 6);
+  const names = ['Александр', 'Андрей', 'Ольга', 'Диана', 'Петр', 'Ксения'];
+  return names[choice];
+};
 
 const identificators = [];
 
 const choiceIdentificator = () => {
-  let choice = Math.trunc(Math.random()*1000 + 1);
+  let choice = Math.trunc(Math.random() * 1000 + 1);
 
   while (identificators.includes(choice)) {
-    choice = Math.trunc(Math.random()*1000 + 1);
+    choice = Math.trunc(Math.random() * 1000 + 1);
   }
   identificators.push(choice);
   return choice;
-}
+};
 
+//массив со всеми объектами
 const descriptionPhoto = [];
-for (let i=1; i<=25; i++) {
-  let f = {
+for (let i = 1; i <= 25; i++) {
+  const f = {
     id: i,
-    url: 'photos/'+i+'.jpg',
+    url: `photos/${i}.jpg`,
     description: 'любое описание',
-    likes: Math.trunc(Math.random()*(200-15) + 15),
+    likes: Math.trunc(Math.random() * (200 - 15) + 15),
     comments: {
       id: choiceIdentificator(),
-      avatar: 'img/avatar-'+Math.trunc(Math.random()*6 + 1)+'.svg',
+      avatar: `img/avatar-${Math.trunc(Math.random() * 6 + 1)}.svg`,
       message: choiceMessage(),
       name: choiceName()
     }
-  }
-
+  };
   descriptionPhoto.push(f);
 }
-
-
-//массив со всеми объектами
-descriptionPhoto;
