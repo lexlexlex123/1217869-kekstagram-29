@@ -1,4 +1,4 @@
-function correctLength(string, length) {
+const correctLength = (string, length) => {
   return string.length <= length;
 }
 
