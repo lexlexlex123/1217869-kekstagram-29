@@ -35,25 +35,29 @@ const choiceIdentificator = () => {
 };
 
 //массив со всеми объектами
-const descriptionPhoto = [];
-const comment = () => {
-  return {
-  id: choiceIdentificator(),
-  avatar: `img/avatar-${randomNumber(1, 6)}.svg`,
-  message: choiceMessage(),
-  name: chooseAName()
+const descriptionPhoto = (count) => {
+  const arrayDescPhoto = []
+  const comment = () => {
+    return {
+    id: choiceIdentificator(),
+    avatar: `img/avatar-${randomNumber(1, 6)}.svg`,
+    message: choiceMessage(),
+    name: chooseAName()
+    }
   }
+
+  for (let i = 1; i <= count; i++) {
+    const f = {
+      id: i,
+      url: `photos/${i}.jpg`,
+      description: 'любое описание',
+      likes: randomNumber(15, 200),
+      comments: Array.from({length: randomNumber(0, 30)}, i => {return comment()})
+    };
+    arrayDescPhoto.push(f);
+  }
+
+  return arrayDescPhoto;
 }
 
-for (let i = 1; i <= 25; i++) {
-  const f = {
-    id: i,
-    url: `photos/${i}.jpg`,
-    description: 'любое описание',
-    likes: randomNumber(15, 200),
-    comments: Array.from({length: randomNumber(0, 30)}, i => {return comment()})
-  };
-  descriptionPhoto.push(f);
-}
-
-console.log(descriptionPhoto);
+console.log(descriptionPhoto(25));
