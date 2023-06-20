@@ -1,6 +1,9 @@
+const randomNumber = (left, right) => {
+  return Math.trunc(Math.random() * (right + 1 - left) + left);
+}
+
 const choiceMessage = () => {
-  const i1 = Math.trunc(Math.random() * 6);
-  const i2 = Math.trunc(Math.random() * 5);
+  const i = randomNumber(0, 5);
   const string = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -10,19 +13,10 @@ const choiceMessage = () => {
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
 
-  const string1 = string[i1];
-  const string2 = string.splice(i1, 1)[i2];
-
-  const count = Math.trunc(Math.random() * 2 + 1);
-  if (count === 1) {
-    return string1;
-  }
-  if (count === 2) {
-    return `${string1}'\n'${string2}`;
-  }
+  return string[i];
 };
 
-const choiceName = () => {
+const chooseAName = () => {
   const choice = Math.trunc(Math.random() * 6);
   const names = ['Александр', 'Андрей', 'Ольга', 'Диана', 'Петр', 'Ксения'];
   return names[choice];
@@ -31,10 +25,10 @@ const choiceName = () => {
 const identificators = [];
 
 const choiceIdentificator = () => {
-  let choice = Math.trunc(Math.random() * 1000 + 1);
+  let choice = randomNumber(1, 1000);
 
   while (identificators.includes(choice)) {
-    choice = Math.trunc(Math.random() * 1000 + 1);
+    choice = randomNumber(1, 1000);
   }
   identificators.push(choice);
   return choice;
@@ -42,18 +36,24 @@ const choiceIdentificator = () => {
 
 //массив со всеми объектами
 const descriptionPhoto = [];
+const comment = () => {
+  return {
+  id: choiceIdentificator(),
+  avatar: `img/avatar-${randomNumber(1, 6)}.svg`,
+  message: choiceMessage(),
+  name: chooseAName()
+  }
+}
+
 for (let i = 1; i <= 25; i++) {
   const f = {
     id: i,
     url: `photos/${i}.jpg`,
     description: 'любое описание',
-    likes: Math.trunc(Math.random() * (200 - 15) + 15),
-    comments: {
-      id: choiceIdentificator(),
-      avatar: `img/avatar-${Math.trunc(Math.random() * 6 + 1)}.svg`,
-      message: choiceMessage(),
-      name: choiceName()
-    }
+    likes: randomNumber(15, 200),
+    comments: Array.from({length: randomNumber(0, 30)}, i => {return comment()})
   };
   descriptionPhoto.push(f);
 }
+
+console.log(descriptionPhoto);
