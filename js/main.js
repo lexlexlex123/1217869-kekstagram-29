@@ -1,9 +1,9 @@
-const randomNumber = (left, right) => {
+const getRandomNumber = (left, right) => {
   return Math.trunc(Math.random() * (right + 1 - left) + left);
 }
 
 const chooseAMessage = () => {
-  const i = randomNumber(0, 5);
+  const i = getRandomNumber(0, 5);
   const string = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
@@ -17,7 +17,7 @@ const chooseAMessage = () => {
 };
 
 const chooseAName = () => {
-  const choice = Math.trunc(Math.random() * 6);
+  const choice = getRandomNumber(0, 5);
   const names = ['Александр', 'Андрей', 'Ольга', 'Диана', 'Петр', 'Ксения'];
   return names[choice];
 };
@@ -25,22 +25,22 @@ const chooseAName = () => {
 const identificators = [];
 
 const chooseAIdentificator = () => {
-  let choice = randomNumber(1, 1000);
+  let choice = getRandomNumber(1, 1000);
 
   while (identificators.includes(choice)) {
-    choice = randomNumber(1, 1000);
+    choice = getRandomNumber(1, 1000);
   }
   identificators.push(choice);
   return choice;
 };
 
 //массив со всеми объектами
-const descriptionPhoto = (count) => {
+const describePhoto = (count) => {
   const arrayDescPhoto = []
-  const comment = () => {
+  const generateComment = () => {
     return {
     id: chooseAIdentificator(),
-    avatar: `img/avatar-${randomNumber(1, 6)}.svg`,
+    avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
     message: chooseAMessage(),
     name: chooseAName()
     }
@@ -51,8 +51,8 @@ const descriptionPhoto = (count) => {
       id: i,
       url: `photos/${i}.jpg`,
       description: 'любое описание',
-      likes: randomNumber(15, 200),
-      comments: Array.from({length: randomNumber(0, 30)}, comment)
+      likes: getRandomNumber(15, 200),
+      comments: Array.from({length: getRandomNumber(0, 30)}, generateComment)
     };
     arrayDescPhoto.push(f);
   }
@@ -60,4 +60,4 @@ const descriptionPhoto = (count) => {
   return arrayDescPhoto;
 }
 
-console.log(descriptionPhoto(25));
+console.log(describePhoto(25));
