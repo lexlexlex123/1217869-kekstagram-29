@@ -2,7 +2,7 @@ const randomNumber = (left, right) => {
   return Math.trunc(Math.random() * (right + 1 - left) + left);
 }
 
-const choiceMessage = () => {
+const chooseAMessage = () => {
   const i = randomNumber(0, 5);
   const string = [
     'Всё отлично!',
@@ -24,7 +24,7 @@ const chooseAName = () => {
 
 const identificators = [];
 
-const choiceIdentificator = () => {
+const chooseAIdentificator = () => {
   let choice = randomNumber(1, 1000);
 
   while (identificators.includes(choice)) {
@@ -39,9 +39,9 @@ const descriptionPhoto = (count) => {
   const arrayDescPhoto = []
   const comment = () => {
     return {
-    id: choiceIdentificator(),
+    id: chooseAIdentificator(),
     avatar: `img/avatar-${randomNumber(1, 6)}.svg`,
-    message: choiceMessage(),
+    message: chooseAMessage(),
     name: chooseAName()
     }
   }
@@ -52,7 +52,7 @@ const descriptionPhoto = (count) => {
       url: `photos/${i}.jpg`,
       description: 'любое описание',
       likes: randomNumber(15, 200),
-      comments: Array.from({length: randomNumber(0, 30)}, i => {return comment()})
+      comments: Array.from({length: randomNumber(0, 30)}, comment)
     };
     arrayDescPhoto.push(f);
   }
