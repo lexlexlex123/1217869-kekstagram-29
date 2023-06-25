@@ -1,17 +1,4 @@
-import {getRandomNumber} from './util.js';
-
-const identificators = [];
-
-const chooseAIdentificator = () => {
-  let choice = getRandomNumber(1, 1000);
-
-  while (identificators.includes(choice)) {
-    choice = getRandomNumber(1, 1000);
-  }
-
-  identificators.push(choice);
-  return choice;
-};
+import {getRandomNumber, chooseAIdentificator} from './util.js';
 
 const chooseAMessage = () => {
   const i = getRandomNumber(0, 5);
