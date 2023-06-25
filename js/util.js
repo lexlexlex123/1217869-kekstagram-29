@@ -1,7 +1,5 @@
 //случайное целое
-const getRandomNumber = (left, right) => {
-  return Math.trunc(Math.random() * (right + 1 - left) + left);
-}
+const getRandomNumber = (left, right) => Math.trunc(Math.random() * (right + 1 - left) + left);
 
 //случайное неповторяющееся число в пределах 1000
 const identificators = [];

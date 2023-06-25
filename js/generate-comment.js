@@ -21,13 +21,11 @@ const chooseAName = () => {
   return names[choice];
 };
 
-const generateComment = () => {
-  return {
+const generateComment = () => ({
   id: chooseAIdentificator(),
   avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
   message: chooseAMessage(),
   name: chooseAName()
-  }
-}
+});
 
 export {generateComment};
