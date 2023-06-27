@@ -12,7 +12,7 @@ for (const photo of describePhotos(25)) {
   img.alt = photo.description;
 
   const likeCount = picture.querySelector('.picture__likes');
-  likeCount.textContent = photo.likes.length;
+  likeCount.textContent = photo.likes;
 
   const commentCount = picture.querySelector('.picture__comments');
   commentCount.textContent = photo.comments.length;
