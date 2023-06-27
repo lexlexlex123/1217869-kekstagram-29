@@ -18,11 +18,9 @@ for (const photo of describePhotos(25)) {
   commentCount.textContent = photo.comments.length;
 
   fragment.append(picture);
-};
+}
 
-window.onload = function(){
+window.onload = function() {
   const picture = document.querySelector('.pictures');
-  console.log(picture);
-  console.log(fragment);
   picture.append(fragment);
 };
