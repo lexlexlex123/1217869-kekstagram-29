@@ -2,8 +2,8 @@ import {getRandomNumber} from './util.js';
 import {generateComment} from './generate-comment.js';
 
 const getDescPhoto = (index) => ({
-  id: index,
-  url: `photos/${index}.jpg`,
+  id: index+1,
+  url: `photos/${index+1}.jpg`,
   description: 'любое описание',
   likes: getRandomNumber(15, 200),
   comments: Array.from({length: getRandomNumber(0, 30)}, generateComment)
