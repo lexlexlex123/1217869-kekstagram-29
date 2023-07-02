@@ -10,6 +10,6 @@ const getDescPhoto = (index) => ({
 });
 
 //массив со всеми объектами
-const describePhotos = (count) => Array(count).fill(null).map((_, index) => getDescPhoto(index));
+const describePhotos = (count) => Array(count).fill(null).map((_, index) => getDescPhoto(index + 1));
 
 export {describePhotos};
