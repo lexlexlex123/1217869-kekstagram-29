@@ -15,8 +15,8 @@ window.addEventListener('load', () => {
     const description = document.querySelector('.social__caption');
     description.textContent = picture.querySelector('.picture__img').alt;
 
+    //комментарии пользователей
     const listComment = allPhotos.filter(({id}) => String(id) === picture.querySelector('.picture__img').id)[0].comments;
-    console.log(listComment);
     const socialComment = document.querySelector('.social__comments');
     socialComment.innerHTML = '';
     listComment.forEach((comment) => {
@@ -33,9 +33,24 @@ window.addEventListener('load', () => {
       socialComment.appendChild(li);
     });
     bigPicture.classList.remove('hidden');
+
+    //закрываем окно счетчика и прокрутку окна body
+    document.querySelector('.social__comment-count').classList.add('hidden');
+    document.querySelector('.comments-loader').classList.add('hidden');
+    document.body.classList.add('modal-open');
   }));
 
-  bigPictureClose.addEventListener('click', () => {
+  const close = () => {
     bigPicture.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+  };
+
+  bigPictureClose.addEventListener('click', () => close());
+
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault;
+      close();
+    }
   });
 });
