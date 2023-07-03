@@ -21,21 +21,20 @@ window.addEventListener('load', () => {
       const countListComment = Number(document.querySelector('.comments-count').textContent);
 
       if (count + 5 < countListComment) {
-        return count += 5;
-      }
-      else {
+        return count + 5;
+      } else {
         document.querySelector('.comments-loader').classList.add('hidden');
         return countListComment;
-      };
+      }
     };
 
-    let renderComment = () => {
+    const renderComment = () => {
       const listComment = allPhotos.filter(({id}) => String(id) === picture.querySelector('.picture__img').id)[0].comments;
       const countListComment = Number(document.querySelector('.comments-count').textContent);
       const socialComment = document.querySelector('.social__comments');
       socialComment.innerHTML = '';
 
-      const count = countAdd();
+      count = countAdd();
 
       //заголовок перед комментами
       const countTitle = document.querySelector('.social__comment-count');
@@ -56,7 +55,7 @@ window.addEventListener('load', () => {
         <p class="social__text">${comment.message}</p>
         `;
         socialComment.appendChild(li);
-      };
+      }
     };
 
     renderComment();
