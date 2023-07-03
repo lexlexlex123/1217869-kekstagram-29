@@ -9,6 +9,8 @@ window.addEventListener('load', () => {
   pictures.forEach((picture) => picture.addEventListener('click', (evn) => {
     const bigPictureImg = document.querySelector('.big-picture__img img');
     bigPictureImg.src = picture.querySelector('.picture__img').src;
+    const likes = document.querySelector('.likes-count');
+    likes.textContent = picture.querySelector('.picture__likes').textContent;
 
     bigPicture.classList.remove('hidden');
   }));
