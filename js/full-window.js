@@ -49,7 +49,7 @@ window.addEventListener('load', () => {
 
   document.addEventListener('keydown', (evt) => {
     if (evt.key === 'Escape') {
-      evt.preventDefault;
+      evt.preventDefault();
       close();
     }
   });
