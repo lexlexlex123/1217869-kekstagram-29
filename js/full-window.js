@@ -13,6 +13,8 @@ window.addEventListener('load', () => {
     likeCount.textContent = picture.querySelector('.picture__likes').textContent;
     const commentCount = document.querySelector('.comments-count');
     commentCount.textContent = picture.querySelector('.picture__comments').textContent;
+    const description = document.querySelector('.social__caption');
+    description.textContent = picture.querySelector('.picture__img').alt;
 
     bigPicture.classList.remove('hidden');
   }));
