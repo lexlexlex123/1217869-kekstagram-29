@@ -1,9 +1,11 @@
 import {describePhotos} from './main.js';
 
+const allPhotos = describePhotos(25);
+
 const createPhoto = () => {
   const fragment = new DocumentFragment();
 
-  for (const photo of describePhotos(25)) {
+  for (const photo of allPhotos) {
     //шаблон картинки
     const picture = document.querySelector('#picture').content.cloneNode(true);
 
@@ -24,8 +26,10 @@ const createPhoto = () => {
   return fragment;
 };
 
-window.onload = function() {
+window.addEventListener('load', function() {
   const fragment = createPhoto();
   const picture = document.querySelector('.pictures');
   picture.append(fragment);
-};
+});
+
+export {allPhotos};
