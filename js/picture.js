@@ -13,6 +13,7 @@ const createPhoto = () => {
     const img = picture.querySelector('.picture__img');
     img.src = photo.url;
     img.alt = photo.description;
+    img.id = photo.id;
 
     const likeCount = picture.querySelector('.picture__likes');
     likeCount.textContent = photo.likes;
@@ -26,7 +27,7 @@ const createPhoto = () => {
   return fragment;
 };
 
-window.addEventListener('load', function() {
+window.addEventListener('load', () => {
   const fragment = createPhoto();
   const picture = document.querySelector('.pictures');
   picture.append(fragment);
