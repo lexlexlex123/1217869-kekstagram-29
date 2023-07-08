@@ -62,6 +62,7 @@ window.addEventListener('load', () => {
     bigPicture.classList.remove('hidden');
     const bigPictureImg = document.querySelector('.big-picture__img img');
     bigPictureImg.src = picture.querySelector('.picture__img').src;
+    bigPictureImg.id = picture.querySelector('.picture__img').id;
     const likeCount = document.querySelector('.likes-count');
     likeCount.textContent = picture.querySelector('.picture__likes').textContent;
     const commentCount = document.querySelector('.comments-count');
@@ -72,15 +73,16 @@ window.addEventListener('load', () => {
     socialComment.innerHTML = '';
 
     renderComment(picture);
-    const loader = document.querySelector('.comments-loader');
-    loader.addEventListener('click', () => {
-      renderComment(picture);
-    });
-
     //закрываем окно счетчика и прокрутку окна body
     document.body.classList.add('modal-open');
   }));
   bigPictureClose.addEventListener('click', () => close());
+
+  const loader = document.querySelector('.comments-loader');
+    loader.addEventListener('click', () => {
+      const bigPictureImg = document.querySelector('.big-picture__img img');
+      renderComment(pictures[Number(bigPictureImg.id)-1]);
+    });
 });
 
 
