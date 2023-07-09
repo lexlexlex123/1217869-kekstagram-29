@@ -78,10 +78,13 @@ window.addEventListener('load', () => {
   }));
   bigPictureClose.addEventListener('click', () => close());
 
+  //дозагрузка картинок
   const loader = document.querySelector('.comments-loader');
   loader.addEventListener('click', () => {
     const bigPictureImg = document.querySelector('.big-picture__img img');
-    renderComment(pictures[Number(bigPictureImg.id) - 1]);
+    //const filter = (pic) => return bigPictureImg.id === pic.querySelector('.picture__img').id;
+    const picture = Array.prototype.filter.call(pictures, (pic) => pic.querySelector('.picture__img').id === bigPictureImg.id)[0];
+    renderComment(picture);
   });
 });
 
