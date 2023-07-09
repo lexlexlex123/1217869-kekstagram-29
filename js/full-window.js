@@ -79,10 +79,10 @@ window.addEventListener('load', () => {
   bigPictureClose.addEventListener('click', () => close());
 
   const loader = document.querySelector('.comments-loader');
-    loader.addEventListener('click', () => {
-      const bigPictureImg = document.querySelector('.big-picture__img img');
-      renderComment(pictures[Number(bigPictureImg.id)-1]);
-    });
+  loader.addEventListener('click', () => {
+    const bigPictureImg = document.querySelector('.big-picture__img img');
+    renderComment(pictures[Number(bigPictureImg.id) - 1]);
+  });
 });
 
 
