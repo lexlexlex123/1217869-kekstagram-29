@@ -1,9 +1,11 @@
 import {describePhotos} from './main.js';
 
+const allPhotos = describePhotos(25);
+
 const createPhoto = () => {
   const fragment = new DocumentFragment();
 
-  for (const photo of describePhotos(25)) {
+  for (const photo of allPhotos) {
     //шаблон картинки
     const picture = document.querySelector('#picture').content.cloneNode(true);
 
@@ -11,6 +13,7 @@ const createPhoto = () => {
     const img = picture.querySelector('.picture__img');
     img.src = photo.url;
     img.alt = photo.description;
+    img.id = photo.id;
 
     const likeCount = picture.querySelector('.picture__likes');
     likeCount.textContent = photo.likes;
@@ -24,8 +27,10 @@ const createPhoto = () => {
   return fragment;
 };
 
-window.onload = function() {
+window.addEventListener('load', () => {
   const fragment = createPhoto();
   const picture = document.querySelector('.pictures');
   picture.append(fragment);
-};
+});
+
+export {allPhotos};
