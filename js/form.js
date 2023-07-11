@@ -4,14 +4,30 @@ const addFormAttr = () => {
   form.action = 'index.html';
   form.method = 'post';
   form.enctype = 'multipart/form-data';
-};
 
+  const pristine = new Pristine(form, {
+    classTo: 'form__item',
+    errorClass: 'form__item--invalid',
+    successClass: 'form__item--valid',
+    errorTextParent: 'form__item',
+    errorTextTag: 'span',
+    errorTextClass: 'form__error'
+  });
+
+  const validateHashTag = (value) => /^#[a-zа-яё0-9]{1,25}$/i.test(value);
+
+  pristine.addValidator(form.querySelector('.text__hashtags'), validateHashTag);
+
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    pristine.validate();
+  });
+};
 
 const loadFormImg = () => {
   const file = document.querySelector('#upload-file');
 
   file.addEventListener('change', () => {
-    //console.log(file.files[0].name);
     //отобразим картинку
     const changeImg = document.querySelector('.img-upload__overlay');
     changeImg.classList.remove('hidden');
@@ -33,7 +49,7 @@ const loadFormImg = () => {
     });
 
     //сбросить выбор файла в input
-    file.value = '';
+    //file.value = '';
   });
 };
 
