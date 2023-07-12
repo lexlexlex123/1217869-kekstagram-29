@@ -14,9 +14,24 @@ const addFormAttr = () => {
     errorTextClass: 'form__error'
   });
 
-  const validateHashTag = (value) => /^#[a-zа-яё0-9]{2,25}$/i.test(value);
+  const validateHashTag = (value) => /^#[a-zа-яё0-9]{2,20}$/i.test(value);
 
-  pristine.addValidator(form.querySelector('.text__hashtags'), validateHashTag);
+  const validateHashTags = () => {
+    const input = form.querySelector('.text__hashtags').value;
+    const words = input.split(' ').filter((value) => value !== '').map((value) => value.toLowerCase());
+    //пустой хэштег
+    if (words.length === 0) return true;
+    //в одном из хэштегов ошибка
+    const countErrorHashTag = words.filter((value) => !validateHashTag(value));
+    if (countErrorHashTag > 0) return false
+    //количество хэштегов больше 5
+    if (words.length > 5) return false;
+    //повторяющиеся хэштеги
+    const repeatWords = new Set(words);
+    if (words.length === repeatWords.size) return true;
+  };
+
+  pristine.addValidator(form.querySelector('.text__hashtags'), validateHashTags);
 
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
