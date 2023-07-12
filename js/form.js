@@ -14,7 +14,7 @@ const addFormAttr = () => {
     errorTextClass: 'form__error'
   });
 
-  const validateHashTag = (value) => /^#[a-zа-яё0-9]{1,25}$/i.test(value);
+  const validateHashTag = (value) => /^#[a-zа-яё0-9]{2,25}$/i.test(value);
 
   pristine.addValidator(form.querySelector('.text__hashtags'), validateHashTag);
 
@@ -31,13 +31,20 @@ const loadFormImg = () => {
     //отобразим картинку
     const changeImg = document.querySelector('.img-upload__overlay');
     changeImg.classList.remove('hidden');
-    //const image = document.querySelector('.img-upload__preview img');
-    //image.src = file.files[0].name;
+    document.body.classList.add('modal-open');
+
+    const image = document.querySelector('.img-upload__preview img');
+    image.src = URL.createObjectURL(file.files[0]);
+    const effectImgs = document.querySelectorAll('.effects__preview');
+    effectImgs.forEach((img) => {
+      img.style.backgroundImage = `url(${image.src})`;
+    });
 
     //скрытие отображение картинки по клику на крестик
     const closeImg = document.querySelector('#upload-cancel');
     closeImg.addEventListener('click', () => {
       changeImg.classList.add('hidden');
+      document.body.classList.remove('modal-open');
     });
 
     //скрытие отображения картинки по Esc
@@ -45,6 +52,7 @@ const loadFormImg = () => {
       if (evt.key === 'Escape') {
         evt.preventDefault();
         changeImg.classList.add('hidden');
+        document.body.classList.remove('modal-open');
       }
     });
 
