@@ -42,9 +42,11 @@ const renderComment = (picture) => {
 
 const close = () => {
   const bigPicture = document.querySelector('.big-picture');
-  bigPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  document.querySelector('.comments-loader').classList.remove('hidden');
+  if (!bigPicture.classList.contains('hidden')) {
+    bigPicture.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+    document.querySelector('.comments-loader').classList.remove('hidden');
+  }
 };
 
 document.addEventListener('keydown', (evt) => {
