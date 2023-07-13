@@ -55,7 +55,7 @@ const addFormAttr = () => {
     const words = input.split(' ').filter((value) => value !== '').map((value) => value.toLowerCase());
     //недопустимый хэштег
     const countErrorHashTag = words.filter((value) => !validateHashTag(value));
-    if (countErrorHashTag > 0) {
+    if (countErrorHashTag.length > 0) {
       return false;
     }
     return true;
