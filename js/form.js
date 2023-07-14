@@ -2,11 +2,13 @@
 const close = () => {
   const changeImg = document.querySelector('.img-upload__overlay');
   const file = document.querySelector('#upload-file');
-  if (!changeImg.classList.contains('hidden')) {
-    changeImg.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-    file.value = '';
+  if (changeImg.classList.contains('hidden')) {
+    return;
   }
+
+  changeImg.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  file.value = '';
 };
 
 //скрытие отображение картинки по клику на пустую область
@@ -35,11 +37,8 @@ document.addEventListener('keydown', (evt) => {
 });
 
 //добавляем аттрибуты форме
-const addFormAttr = () => {
+const validateForm = () => {
   const form = document.querySelector('.img-upload__form');
-  form.action = 'index.html';
-  form.method = 'post';
-  form.enctype = 'multipart/form-data';
 
   const pristine = new Pristine(form, {
     classTo: 'img-upload__text',
@@ -48,46 +47,31 @@ const addFormAttr = () => {
     errorTextClass: 'error-validate'
   });
 
-  const validateHashTag = (value) => /^#[a-zа-яё0-9]{2,20}$/i.test(value);
+  const validateHashTag = (value) => /^#[a-zа-яё0-9]{1,20}$/i.test(value);
 
   const validateHashTagBlank = () => {
     const input = form.querySelector('.text__hashtags').value;
     const words = input.split(' ').filter((value) => value !== '').map((value) => value.toLowerCase());
-    //недопустимый хэштег
     const countErrorHashTag = words.filter((value) => !validateHashTag(value));
-    if (countErrorHashTag.length > 0) {
-      return false;
-    }
-    return true;
+    return countErrorHashTag.length === 0;
   };
 
   const validateHashTagCount = () => {
     const input = form.querySelector('.text__hashtags').value;
     const words = input.split(' ').filter((value) => value !== '').map((value) => value.toLowerCase());
-    //количество хэштегов больше 5
-    if (words.length > 5) {
-      return false;
-    }
-    return true;
+    return words.length <= 5;
   };
 
   const validateHashTagRepeat = () => {
     const input = form.querySelector('.text__hashtags').value;
     const words = input.split(' ').filter((value) => value !== '').map((value) => value.toLowerCase());
-    //повторяющиеся хэштеги
     const repeatWords = new Set(words);
-    if (words.length === repeatWords.size) {
-      return true;
-    }
-    return false;
+    return words.length === repeatWords.size;
   };
 
   const validateComments = () => {
     const input = form.querySelector('.text__description').value;
-    if (input.length > 140) {
-      return false;
-    }
-    return true;
+    return input.length <= 140;
   };
 
   pristine.addValidator(form.querySelector('.text__hashtags'), validateHashTagBlank, 'недопустипый хэштег');
@@ -99,9 +83,9 @@ const addFormAttr = () => {
     if (pristine.validate()) {
       evt.preventDefault();
       close();
-    } else {
-      evt.preventDefault();
+      return;
     }
+    evt.preventDefault();
   });
 };
 
@@ -123,5 +107,4 @@ const loadFormImg = () => {
   });
 };
 
-addFormAttr();
-loadFormImg();
+export {validateForm, loadFormImg};
