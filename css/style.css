@@ -1335,7 +1335,15 @@ main {
           transform: translateX(-50%);
 }
 
+.error-validate {
+  background-color: #f55;
+  color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 15px auto 0;
+  width: 450px;
 
+}
 /* Адаптивности чуток
    ========================================================================== */
 

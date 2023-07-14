@@ -1,8 +1,4 @@
-import {describePhotos} from './main.js';
-
-const allPhotos = describePhotos(25);
-
-const createPhoto = () => {
+const createPhoto = (allPhotos) => {
   const fragment = new DocumentFragment();
 
   for (const photo of allPhotos) {
@@ -24,13 +20,8 @@ const createPhoto = () => {
     fragment.append(picture);
   }
 
-  return fragment;
+  const pictures = document.querySelector('.pictures');
+  pictures.append(fragment);
 };
 
-window.addEventListener('load', () => {
-  const fragment = createPhoto();
-  const picture = document.querySelector('.pictures');
-  picture.append(fragment);
-});
-
-export {allPhotos};
+export {createPhoto};

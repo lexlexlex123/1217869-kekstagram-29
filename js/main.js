@@ -1,3 +1,10 @@
 import {describePhotos} from './describe-photo.js';
+import {createPhoto} from './picture.js';
+import {showFullWindowImg} from './full-window.js';
+import {validateForm, loadFormImg} from './form.js';
 
-export {describePhotos};
+const allPhotos = describePhotos(25);
+createPhoto(allPhotos);
+showFullWindowImg(allPhotos);
+loadFormImg();
+validateForm();
