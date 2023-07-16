@@ -12,6 +12,17 @@ const close = () => {
   file.value = '';
   form.querySelector('.text__hashtags').value = '';
   form.querySelector('.text__description').value = '';
+
+  const buttonValue = document.querySelector('.scale__control--value');
+  buttonValue.value = '100%';
+  const image = document.querySelector('.img-upload__preview img');
+  image.style.transform = `scale(1)`;
+  image.style.filter = 'none';
+
+  const slider = document.querySelector('.effect-level__slider');
+  slider.noUiSlider.set(0);
+  const fieldSlider = document.querySelector('.img-upload__effect-level');
+  fieldSlider.style.display = 'none';
 };
 
 //скрытие отображение картинки по клику на пустую область
@@ -110,4 +121,93 @@ const loadFormImg = () => {
   });
 };
 
-export {validateForm, loadFormImg};
+const scaleImage = () => {
+  const buttonSmall = document.querySelector('.scale__control--smaller');
+  const buttonBig = document.querySelector('.scale__control--bigger');
+  const buttonValue = document.querySelector('.scale__control--value');
+  const image = document.querySelector('.img-upload__preview img');
+
+  buttonSmall.addEventListener('click', () => {
+    const digitValue = Number(buttonValue.value.replace('%',''));
+    if (digitValue > 25) {
+      buttonValue.value = `${digitValue-25}%`;
+      image.style.transform = `scale(${(digitValue-25) / 100})`;
+    }
+  });
+
+  buttonBig.addEventListener('click', () => {
+    const digitValue = Number(buttonValue.value.replace('%',''));
+    if (digitValue < 100) {
+      buttonValue.value = `${digitValue+25}%`;
+      image.style.transform = `scale(${(digitValue+25) / 100})`;
+    }
+  });
+};
+
+const changeFilterEffect = () => {
+  const effectNone = document.querySelector('#effect-none');
+  const effectChrome = document.querySelector('#effect-chrome');
+  const effectSepia = document.querySelector('#effect-sepia');
+  const effectMarvin = document.querySelector('#effect-marvin');
+  const effectPhobos = document.querySelector('#effect-phobos');
+  const effectHeat = document.querySelector('#effect-heat');
+  const effectsList = document.querySelector('.effects__list');
+  const image = document.querySelector('.img-upload__preview img');
+  const slider = document.querySelector('.effect-level__slider');
+  const sliderValue = document.querySelector('.effect-level__value');
+  const fieldSlider = document.querySelector('.img-upload__effect-level');
+
+  noUiSlider.create(slider, {
+    range: {
+      min: 0,
+      max: 100,
+    },
+    start: 0,
+    step: 10,
+    connect: 'lower',
+  });
+
+  const setValueEffect = () => {
+    const value = sliderValue.value;
+    fieldSlider.style.display = 'block';
+
+    if (effectNone.checked) {
+      image.style.filter = 'none';
+      sliderValue.value = 0;
+      fieldSlider.style.display = 'none';
+    }
+
+    if (effectChrome.checked) {
+      image.style.filter = `grayscale(${value/100})`;
+    }
+
+    if (effectSepia.checked) {
+      image.style.filter = `sepia(${value/100})`;
+    }
+
+    if (effectMarvin.checked) {
+      image.style.filter = `invert(${value/100})`;
+    }
+
+    if (effectPhobos.checked) {
+      image.style.filter = `blur(${value*3/100}px)`;
+    }
+
+    if (effectHeat.checked) {
+      image.style.filter = `brightness(${1 + value*2/100})`;
+    }
+  };
+
+  slider.noUiSlider.on('update', () => {
+    sliderValue.value = slider.noUiSlider.get();
+    setValueEffect();
+  });
+
+  effectsList.addEventListener('click', () => {
+    sliderValue.value = 0;
+    slider.noUiSlider.set(0);
+    setValueEffect();
+  });
+};
+
+export {validateForm, loadFormImg, scaleImage, changeFilterEffect};
