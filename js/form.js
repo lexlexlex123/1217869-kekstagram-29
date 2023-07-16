@@ -16,7 +16,7 @@ const close = () => {
   const buttonValue = document.querySelector('.scale__control--value');
   buttonValue.value = '100%';
   const image = document.querySelector('.img-upload__preview img');
-  image.style.transform = `scale(1)`;
+  image.style.transform = 'scale(1)';
   image.style.filter = 'none';
 
   const slider = document.querySelector('.effect-level__slider');
@@ -130,16 +130,16 @@ const scaleImage = () => {
   buttonSmall.addEventListener('click', () => {
     const digitValue = Number(buttonValue.value.replace('%',''));
     if (digitValue > 25) {
-      buttonValue.value = `${digitValue-25}%`;
-      image.style.transform = `scale(${(digitValue-25) / 100})`;
+      buttonValue.value = `${digitValue - 25}%`;
+      image.style.transform = `scale(${(digitValue - 25) / 100})`;
     }
   });
 
   buttonBig.addEventListener('click', () => {
     const digitValue = Number(buttonValue.value.replace('%',''));
     if (digitValue < 100) {
-      buttonValue.value = `${digitValue+25}%`;
-      image.style.transform = `scale(${(digitValue+25) / 100})`;
+      buttonValue.value = `${digitValue + 25}%`;
+      image.style.transform = `scale(${(digitValue + 25) / 100})`;
     }
   });
 };
@@ -178,23 +178,23 @@ const changeFilterEffect = () => {
     }
 
     if (effectChrome.checked) {
-      image.style.filter = `grayscale(${value/100})`;
+      image.style.filter = `grayscale(${value / 100})`;
     }
 
     if (effectSepia.checked) {
-      image.style.filter = `sepia(${value/100})`;
+      image.style.filter = `sepia(${value / 100})`;
     }
 
     if (effectMarvin.checked) {
-      image.style.filter = `invert(${value/100})`;
+      image.style.filter = `invert(${value / 100})`;
     }
 
     if (effectPhobos.checked) {
-      image.style.filter = `blur(${value*3/100}px)`;
+      image.style.filter = `blur(${value * 3 / 100}px)`;
     }
 
     if (effectHeat.checked) {
-      image.style.filter = `brightness(${1 + value*2/100})`;
+      image.style.filter = `brightness(${1 + value * 2 / 100})`;
     }
   };
 
