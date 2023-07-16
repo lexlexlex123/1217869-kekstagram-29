@@ -125,23 +125,22 @@ const scaleImage = () => {
   const buttonSmall = document.querySelector('.scale__control--smaller');
   const buttonBig = document.querySelector('.scale__control--bigger');
   const buttonValue = document.querySelector('.scale__control--value');
-  const image = document.querySelector('.img-upload__preview img');
 
-  buttonSmall.addEventListener('click', () => {
+  const zoomImg = (direction) => {
+    const image = document.querySelector('.img-upload__preview img');
     const digitValue = Number(buttonValue.value.replace('%',''));
-    if (digitValue > 25) {
-      buttonValue.value = `${digitValue - 25}%`;
-      image.style.transform = `scale(${(digitValue - 25) / 100})`;
-    }
-  });
 
-  buttonBig.addEventListener('click', () => {
-    const digitValue = Number(buttonValue.value.replace('%',''));
-    if (digitValue < 100) {
-      buttonValue.value = `${digitValue + 25}%`;
-      image.style.transform = `scale(${(digitValue + 25) / 100})`;
-    }
-  });
+    if ((digitValue === 25) && (direction < 0)) {direction = 0}
+
+    if ((digitValue === 100) && (direction > 0)) {direction = 0}
+
+    buttonValue.value = `${digitValue + direction}%`;
+    image.style.transform = `scale(${(digitValue + direction) / 100})`;
+  };
+
+  buttonSmall.addEventListener('click', () => zoomImg(-25));
+
+  buttonBig.addEventListener('click', () => zoomImg(25));
 };
 
 const changeFilterEffect = () => {
@@ -171,30 +170,27 @@ const changeFilterEffect = () => {
     const value = sliderValue.value;
     fieldSlider.style.display = 'block';
 
-    if (effectNone.checked) {
-      image.style.filter = 'none';
-      sliderValue.value = 0;
-      fieldSlider.style.display = 'none';
-    }
-
-    if (effectChrome.checked) {
-      image.style.filter = `grayscale(${value / 100})`;
-    }
-
-    if (effectSepia.checked) {
-      image.style.filter = `sepia(${value / 100})`;
-    }
-
-    if (effectMarvin.checked) {
-      image.style.filter = `invert(${value / 100})`;
-    }
-
-    if (effectPhobos.checked) {
-      image.style.filter = `blur(${value * 3 / 100}px)`;
-    }
-
-    if (effectHeat.checked) {
-      image.style.filter = `brightness(${1 + value * 2 / 100})`;
+    switch (true) {
+      case (effectNone.checked) :
+        image.style.filter = 'none';
+        sliderValue.value = 0;
+        fieldSlider.style.display = 'none';
+        break;
+      case (effectChrome.checked) :
+        image.style.filter = `grayscale(${value / 100})`;
+        break;
+      case (effectSepia.checked) :
+        image.style.filter = `sepia(${value / 100})`;
+        break;
+      case (effectMarvin.checked) :
+        image.style.filter = `invert(${value / 100})`;
+        break;
+      case (effectPhobos.checked) :
+        image.style.filter = `blur(${value * 3 / 100}px)`;
+        break;
+      case (effectHeat.checked) :
+        image.style.filter = `brightness(${1 + value * 2 / 100})`;
+        break;
     }
   };
 
