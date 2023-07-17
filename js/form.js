@@ -23,6 +23,9 @@ const close = () => {
   slider.noUiSlider.set(0);
   const fieldSlider = document.querySelector('.img-upload__effect-level');
   fieldSlider.style.display = 'none';
+
+  const buttonSubmit = document.querySelector('.img-upload__submit');
+  buttonSubmit.disabled = true;
 };
 
 //скрытие отображение картинки по клику на пустую область
@@ -50,17 +53,15 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
-//добавляем аттрибуты форме
+const form = document.querySelector('.img-upload__form');
+const pristine = new Pristine(form, {
+  classTo: 'img-upload__text',
+  errorTextParent: 'img-upload__text',
+  errorTextTag: 'div',
+  errorTextClass: 'error-validate'
+});
+
 const validateForm = () => {
-  const form = document.querySelector('.img-upload__form');
-
-  const pristine = new Pristine(form, {
-    classTo: 'img-upload__text',
-    errorTextParent: 'img-upload__text',
-    errorTextTag: 'div',
-    errorTextClass: 'error-validate'
-  });
-
   const validateHashTag = (value) => /^#[a-zа-яё0-9]{1,20}$/i.test(value);
 
   const validateHashTagBlank = () => {
@@ -93,15 +94,44 @@ const validateForm = () => {
   pristine.addValidator(form.querySelector('.text__hashtags'), validateHashTagRepeat, 'есть повторяющиеся хэштеги');
   pristine.addValidator(form.querySelector('.text__description'), validateComments, 'комментариев больше 140');
 
-  form.addEventListener('submit', (evt) => {
-    if (pristine.validate()) {
-      evt.preventDefault();
-      close();
-      return;
-    }
+
+};
+
+const setOnFormSubmit = (callback) => {
+  form.addEventListener('submit', async (evt) => {
     evt.preventDefault();
+    if (pristine.validate()) {
+      try {
+        await callback(new FormData(form));
+        showOkMessange();
+        close();
+      }
+      catch {
+        showErrorMessange();
+      };
+    }
   });
 };
+
+const showOkMessange = () => {
+  const ok = document.querySelector('#success').content.cloneNode(true);
+  document.querySelector('.pictures').appendChild(ok);
+  const okButton = document.querySelector('.success__button');
+  okButton.addEventListener('click', () => {
+    const sectionError = document.querySelector('.success');
+    document.querySelector('.pictures').removeChild(sectionError);
+  });
+}
+
+const showErrorMessange = () => {
+  const error = document.querySelector('#error').content.cloneNode(true);
+  document.querySelector('.pictures').appendChild(error);
+  const errorButton = document.querySelector('.error__button');
+  errorButton.addEventListener('click', () => {
+    const sectionError = document.querySelector('.error');
+    document.querySelector('.pictures').removeChild(sectionError);
+  });
+}
 
 const loadFormImg = () => {
   const file = document.querySelector('#upload-file');
@@ -210,4 +240,4 @@ const changeFilterEffect = () => {
   });
 };
 
-export {validateForm, loadFormImg, scaleImage, changeFilterEffect};
+export {validateForm, loadFormImg, scaleImage, changeFilterEffect, setOnFormSubmit};
