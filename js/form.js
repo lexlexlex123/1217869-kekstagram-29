@@ -1,7 +1,7 @@
-//скрытие отображение картинки
+const form = document.querySelector('.img-upload__form');
+
 const close = () => {
   const changeImg = document.querySelector('.img-upload__overlay');
-  const form = document.querySelector('.img-upload__form');
   const file = document.querySelector('#upload-file');
   if (changeImg.classList.contains('hidden')) {
     return;
@@ -44,7 +44,6 @@ closeButton.addEventListener('click', () => {
 
 //скрытие отображения картинки по Esc
 document.addEventListener('keydown', (evt) => {
-  const form = document.querySelector('.img-upload__form');
   const noFocus = (form.querySelector('.text__hashtags') !== document.activeElement) && (form.querySelector('.text__description') !== document.activeElement);
 
   if ((evt.key === 'Escape') && (noFocus)) {
@@ -53,7 +52,6 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
-const form = document.querySelector('.img-upload__form');
 const pristine = new Pristine(form, {
   classTo: 'img-upload__text',
   errorTextParent: 'img-upload__text',
@@ -97,22 +95,6 @@ const validateForm = () => {
 
 };
 
-const setOnFormSubmit = (callback) => {
-  form.addEventListener('submit', async (evt) => {
-    evt.preventDefault();
-    if (pristine.validate()) {
-      try {
-        await callback(new FormData(form));
-        showOkMessange();
-        close();
-      }
-      catch {
-        showErrorMessange();
-      };
-    }
-  });
-};
-
 const showOkMessange = () => {
   const ok = document.querySelector('#success').content.cloneNode(true);
   document.querySelector('.pictures').appendChild(ok);
@@ -121,7 +103,7 @@ const showOkMessange = () => {
     const sectionError = document.querySelector('.success');
     document.querySelector('.pictures').removeChild(sectionError);
   });
-}
+};
 
 const showErrorMessange = () => {
   const error = document.querySelector('#error').content.cloneNode(true);
@@ -131,7 +113,23 @@ const showErrorMessange = () => {
     const sectionError = document.querySelector('.error');
     document.querySelector('.pictures').removeChild(sectionError);
   });
-}
+};
+
+const setOnFormSubmit = (callback) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+
+    if (pristine.validate()) {
+      try {
+        await callback(new FormData(form));
+        showOkMessange();
+        close();
+      } catch {
+        showErrorMessange();
+      }
+    }
+  });
+};
 
 const loadFormImg = () => {
   const file = document.querySelector('#upload-file');
