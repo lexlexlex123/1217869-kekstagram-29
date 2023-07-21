@@ -1,9 +1,9 @@
 const data = (response) => {
-    if (!response.ok) {
-      return new Error();
-    }
-    return response.json();
-}
+  if (!response.ok) {
+    return new Error();
+  }
+  return response.json();
+};
 
 const getData = () =>
   fetch('https://29.javascript.pages.academy/kekstagram/data', {method: 'GET'})
