@@ -1,22 +1,22 @@
-const data = (response) => {
+const exchangeData = (response) => {
   if (!response.ok) {
-    return new Error();
+    throw new Error('нет подключения к базе данных');
   }
   return response.json();
 };
 
 const getData = () =>
   fetch('https://29.javascript.pages.academy/kekstagram/data', {method: 'GET'})
-    .then((response) => data(response))
+    .then((response) => exchangeData(response))
     .catch(() => {
-      throw new Error('Какая-то ошибка получения данных');
+      throw new Error('не смог получить картинки с сервера');
     });
 
 const sendData = (body = null) =>
   fetch('https://29.javascript.pages.academy/kekstagram/', {method: 'POST', body})
-    .then((response) => data(response))
+    .then((response) => exchangeData(response))
     .catch(() => {
-      throw new Error('Какая-то ошибка отправки данных');
+      throw new Error('не смог загрузить картинку на сервер');
     });
 
 export {getData, sendData};
