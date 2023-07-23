@@ -24,4 +24,12 @@ const createPhoto = (allPhotos) => {
   pictures.append(fragment);
 };
 
-export {createPhoto};
+const deletePhotos = () => {
+  const pictureContainer = document.querySelector('.pictures');
+  const pictures = document.querySelectorAll('.picture');
+  pictures.forEach((picture) => {
+    pictureContainer.removeChild(picture);
+  });
+};
+
+export {createPhoto, deletePhotos};
