@@ -1,12 +1,17 @@
-import {describePhotos} from './describe-photo.js';
 import {createPhoto} from './picture.js';
 import {showFullWindowImg} from './full-window.js';
-import {validateForm, loadFormImg, scaleImage, changeFilterEffect} from './form.js';
+import {validateForm, loadFormImg, scaleImage, changeFilterEffect, setOnFormSubmit} from './form.js';
+import {getData, sendData} from './data.js';
 
-const allPhotos = describePhotos(25);
+setOnFormSubmit(async (data) => {
+  await sendData(data);
+});
+
+const allPhotos = await getData();
 createPhoto(allPhotos);
 showFullWindowImg(allPhotos);
 loadFormImg();
 validateForm();
 scaleImage();
 changeFilterEffect();
+sendData();
