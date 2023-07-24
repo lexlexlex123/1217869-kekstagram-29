@@ -1,8 +1,10 @@
 import {createPhoto, deletePhotos} from './picture.js';
 import {createRandomArray} from './util.js';
+import {showFullWindowImg} from './full-window.js';
 
 const filterMenu = (allPhotos) => {
   createPhoto(allPhotos);
+  showFullWindowImg(allPhotos);
   const imgFilters = document.querySelector('.img-filters');
   imgFilters.classList.remove('img-filters--inactive');
 
@@ -10,17 +12,21 @@ const filterMenu = (allPhotos) => {
     deletePhotos();
     const newAllPhotos = createRandomArray(photos, 10);
     createPhoto(newAllPhotos);
+    showFullWindowImg(newAllPhotos);
   };
 
   const filterDiscussed = (photos) => {
     deletePhotos();
     const compareDiscussedCount = (photo1, photo2) => photo2.likes - photo1.likes;
-    createPhoto(photos.slice().sort(compareDiscussedCount));
+    const newAllPhotos = photos.slice().sort(compareDiscussedCount);
+    createPhoto(newAllPhotos);
+    showFullWindowImg(newAllPhotos);
   };
 
   const filterDefault = (photos) => {
     deletePhotos();
     createPhoto(photos);
+    showFullWindowImg(photos);
   };
 
   const elementsMenu = document.querySelectorAll('.img-filters__button');

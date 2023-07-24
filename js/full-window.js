@@ -88,7 +88,7 @@ const showFullWindowImg = (AllPhotos) => {
     }
   });
 
-  //дозагрузка картинок
+  //дозагрузка комментов
   const loader = document.querySelector('.comments-loader');
   loader.addEventListener('click', () => {
     const bigPictureImg = document.querySelector('.big-picture__img img');
