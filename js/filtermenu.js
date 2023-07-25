@@ -17,7 +17,7 @@ const filterMenu = (allPhotos) => {
 
   const filterDiscussed = (photos) => {
     deletePhotos();
-    const compareDiscussedCount = (photo1, photo2) => photo2.likes - photo1.likes;
+    const compareDiscussedCount = (photo1, photo2) => photo2.comments.length - photo1.comments.length;
     const newAllPhotos = photos.slice().sort(compareDiscussedCount);
     createPhoto(newAllPhotos);
     showFullWindowImg(newAllPhotos);
