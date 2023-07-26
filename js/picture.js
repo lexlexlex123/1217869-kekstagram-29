@@ -1,4 +1,4 @@
-import {showFullWindowImg, renderComments} from "./full-window.js";
+import {showFullWindowImg, renderComments} from './full-window.js';
 
 const createPhotos = (allPhotos) => {
   const fragment = new DocumentFragment();
@@ -19,8 +19,6 @@ const createPhotos = (allPhotos) => {
     const commentCount = picture.querySelector('.picture__comments');
     commentCount.textContent = photo.comments.length;
 
-
-
     fragment.append(picture);
   }
 
@@ -30,7 +28,7 @@ const createPhotos = (allPhotos) => {
   const pictures = pictureContainer.querySelectorAll('.picture');
   pictures.forEach((picture) => {
     const img = picture.querySelector('.picture__img');
-    const photo = allPhotos.filter(p => p.id == img.id)[0];
+    const photo = allPhotos.filter((p) => Number(p.id) === Number(img.id))[0];
     picture.addEventListener('click', () => {
       showFullWindowImg(photo);
       renderComments(allPhotos);

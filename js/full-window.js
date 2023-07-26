@@ -11,7 +11,7 @@ const countAdd = (element) => {
 
 const renderComments = (allPhotos) => {
   const bigPictureImg = document.querySelector('.big-picture__img img');
-  const photo = allPhotos.filter(p => p.id == bigPictureImg.id)[0];
+  const photo = allPhotos.filter((p) => Number(p.id) === Number(bigPictureImg.id))[0];
   const listComments = photo.comments;
   const countListComments = Number(document.querySelector('.comments-count').textContent);
   const socialComments = document.querySelector('.social__comments');
