@@ -15,4 +15,12 @@ const createRandomArray = (array, count) => {
   return newArray;
 };
 
-export {getRandomNumber, createRandomArray};
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {getRandomNumber, createRandomArray, debounce};
