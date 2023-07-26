@@ -1,6 +1,5 @@
 import {createPhotos, deletePhotos} from './picture.js';
-import {createRandomArray} from './util.js';
-import {renderComments} from "./full-window.js";
+import {createRandomArray, debounce} from './util.js';
 
 const filterMenu = (allPhotos) => {
   deletePhotos();
@@ -36,15 +35,15 @@ const filterMenu = (allPhotos) => {
         element.classList.add('img-filters__button--active');
 
         if (element.id === 'filter-random') {
-          filterRandom(allPhotos);
+          debounce(filterRandom(allPhotos));
         }
 
         if (element.id === 'filter-default') {
-          filterDefault(allPhotos);
+          debounce(filterDefault(allPhotos));
         }
 
         if (element.id === 'filter-discussed') {
-          filterDiscussed(allPhotos);
+          debounce(filterDiscussed(allPhotos));
         }
       });
     });

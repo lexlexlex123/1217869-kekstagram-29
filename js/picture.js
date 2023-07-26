@@ -31,7 +31,10 @@ const createPhotos = (allPhotos) => {
   pictures.forEach((picture) => {
     const img = picture.querySelector('.picture__img');
     const photo = allPhotos.filter(p => p.id == img.id)[0];
-    picture.addEventListener('click', () => showFullWindowImg(photo));
+    picture.addEventListener('click', () => {
+      showFullWindowImg(photo);
+      renderComments(allPhotos);
+    });
   });
 
   //дозагрузка комментов
