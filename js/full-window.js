@@ -9,21 +9,23 @@ const countAdd = (element) => {
   return countListComment;
 };
 
-const renderComment = (allPhotos, picture) => {
-  const listComment = allPhotos.filter(({id}) => String(id) === picture.querySelector('.picture__img').id)[0].comments;
-  const countListComment = Number(document.querySelector('.comments-count').textContent);
-  const socialComment = document.querySelector('.social__comments');
-  const count = countAdd(socialComment);
-  socialComment.innerHTML = '';
+const renderComments = (allPhotos) => {
+  const bigPictureImg = document.querySelector('.big-picture__img img');
+  const photo = allPhotos.filter(p => p.id == bigPictureImg.id)[0];
+  const listComments = photo.comments;
+  const countListComments = Number(document.querySelector('.comments-count').textContent);
+  const socialComments = document.querySelector('.social__comments');
+  const count = countAdd(socialComments);
+  socialComments.innerHTML = '';
 
   //заголовок перед комментами
   const countTitle = document.querySelector('.social__comment-count');
   countTitle.innerHTML = `
-    ${count} из <span class="comments-count">${countListComment}</span> комментариев
+    ${count} из <span class="comments-count">${countListComments}</span> комментариев
   `;
 
   for (let i = 0; i < count; i++) {
-    const comment = listComment[i];
+    const comment = listComments[i];
     const li = document.createElement('li');
     li.classList.add('social__comment');
     li.innerHTML = `
@@ -34,7 +36,7 @@ const renderComment = (allPhotos, picture) => {
         width="35" height="35">
     <p class="social__text">${comment.message}</p>
     `;
-    socialComment.appendChild(li);
+    socialComments.appendChild(li);
   }
 };
 
@@ -56,28 +58,24 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
-const showFullWindowImg = (AllPhotos) => {
-  const pictures = document.querySelectorAll('.picture');
+const showFullWindowImg = (photo) => {
   const bigPicture = document.querySelector('.big-picture');
   const bigPictureClose = document.querySelector('.big-picture__cancel');
-  pictures.forEach((picture) => picture.addEventListener('click', () => {
-    bigPicture.classList.remove('hidden');
-    const bigPictureImg = document.querySelector('.big-picture__img img');
-    bigPictureImg.src = picture.querySelector('.picture__img').src;
-    bigPictureImg.id = picture.querySelector('.picture__img').id;
-    const likeCount = document.querySelector('.likes-count');
-    likeCount.textContent = picture.querySelector('.picture__likes').textContent;
-    const commentCount = document.querySelector('.comments-count');
-    commentCount.textContent = picture.querySelector('.picture__comments').textContent;
-    const description = document.querySelector('.social__caption');
-    description.textContent = picture.querySelector('.picture__img').alt;
-    const socialComment = document.querySelector('.social__comments');
-    socialComment.innerHTML = '';
-
-    renderComment(AllPhotos, picture);
-    //закрываем окно счетчика и прокрутку окна body
-    document.body.classList.add('modal-open');
-  }));
+  bigPicture.classList.remove('hidden');
+  const bigPictureImg = document.querySelector('.big-picture__img img');
+  bigPictureImg.src = photo.url;
+  bigPictureImg.id = photo.id;
+  const likeCount = document.querySelector('.likes-count');
+  likeCount.textContent = photo.likes;
+  const commentCount = document.querySelector('.comments-count');
+  commentCount.textContent = photo.comments.length;
+  const description = document.querySelector('.social__caption');
+  description.textContent = photo.description;
+  const socialComment = document.querySelector('.social__comments');
+  socialComment.innerHTML = '';
+  //renderComment(photo);
+  //закрываем окно счетчика и прокрутку окна body
+  document.body.classList.add('modal-open');
   bigPictureClose.addEventListener('click', () => close());
 
   //скрытие отображение картинки по клику на пустую область
@@ -87,14 +85,6 @@ const showFullWindowImg = (AllPhotos) => {
       close();
     }
   });
-
-  //дозагрузка комментов
-  const loader = document.querySelector('.comments-loader');
-  loader.addEventListener('click', () => {
-    const bigPictureImg = document.querySelector('.big-picture__img img');
-    const picture = Array.prototype.filter.call(pictures, (pic) => pic.querySelector('.picture__img').id === bigPictureImg.id)[0];
-    renderComment(AllPhotos, picture);
-  });
 };
 
-export {showFullWindowImg};
+export {showFullWindowImg, renderComments};

@@ -7,9 +7,9 @@ const createRandomArray = (array, count) => {
   let oldArray = array.slice();
 
   for (let i = 0; i < count; i++) {
-    const choice = getRandomNumber(1, count - i);
+    const choice = getRandomNumber(0, array.length - i - 1);
     newArray.push(oldArray[choice]);
-    oldArray = [...oldArray.slice(1, choice), ...oldArray.slice(choice + 1, oldArray.length)];
+    oldArray = [...oldArray.slice(0, choice), ...oldArray.slice(choice + 1, oldArray.length)];
   }
 
   return newArray;

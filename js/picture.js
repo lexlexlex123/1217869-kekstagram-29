@@ -1,4 +1,6 @@
-const createPhoto = (allPhotos) => {
+import {showFullWindowImg, renderComments} from "./full-window.js";
+
+const createPhotos = (allPhotos) => {
   const fragment = new DocumentFragment();
 
   for (const photo of allPhotos) {
@@ -17,19 +19,33 @@ const createPhoto = (allPhotos) => {
     const commentCount = picture.querySelector('.picture__comments');
     commentCount.textContent = photo.comments.length;
 
+
+
     fragment.append(picture);
   }
 
-  const pictures = document.querySelector('.pictures');
-  pictures.append(fragment);
+  const pictureContainer = document.querySelector('.pictures');
+  pictureContainer.append(fragment);
+
+  const pictures = pictureContainer.querySelectorAll('.picture');
+  pictures.forEach((picture) => {
+    const img = picture.querySelector('.picture__img');
+    const photo = allPhotos.filter(p => p.id == img.id)[0];
+    picture.addEventListener('click', () => showFullWindowImg(photo));
+  });
+
+  //дозагрузка комментов
+  const loader = document.querySelector('.comments-loader');
+  loader.addEventListener('click', () => renderComments(allPhotos));
 };
 
 const deletePhotos = () => {
   const pictureContainer = document.querySelector('.pictures');
   const pictures = document.querySelectorAll('.picture');
   pictures.forEach((picture) => {
+    picture.removeEventListener('click', showFullWindowImg);
     pictureContainer.removeChild(picture);
   });
 };
 
-export {createPhoto, deletePhotos};
+export {createPhotos, deletePhotos};

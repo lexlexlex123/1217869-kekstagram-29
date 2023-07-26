@@ -1,32 +1,29 @@
-import {createPhoto, deletePhotos} from './picture.js';
+import {createPhotos, deletePhotos} from './picture.js';
 import {createRandomArray} from './util.js';
-import {showFullWindowImg} from './full-window.js';
+import {renderComments} from "./full-window.js";
 
 const filterMenu = (allPhotos) => {
-  createPhoto(allPhotos);
-  showFullWindowImg(allPhotos);
+  deletePhotos();
+  createPhotos(allPhotos);
   const imgFilters = document.querySelector('.img-filters');
   imgFilters.classList.remove('img-filters--inactive');
 
   const filterRandom = (photos) => {
     deletePhotos();
     const newAllPhotos = createRandomArray(photos, 10);
-    createPhoto(newAllPhotos);
-    showFullWindowImg(newAllPhotos);
+    createPhotos(newAllPhotos);
   };
 
   const filterDiscussed = (photos) => {
     deletePhotos();
     const compareDiscussedCount = (photo1, photo2) => photo2.comments.length - photo1.comments.length;
     const newAllPhotos = photos.slice().sort(compareDiscussedCount);
-    createPhoto(newAllPhotos);
-    showFullWindowImg(newAllPhotos);
+    createPhotos(newAllPhotos);
   };
 
   const filterDefault = (photos) => {
     deletePhotos();
-    createPhoto(photos);
-    showFullWindowImg(photos);
+    createPhotos(photos);
   };
 
   const elementsMenu = document.querySelectorAll('.img-filters__button');
