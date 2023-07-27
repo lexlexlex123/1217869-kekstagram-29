@@ -33,19 +33,21 @@ const filterMenu = (allPhotos) => {
           e.classList.remove('img-filters__button--active');
         });
         element.classList.add('img-filters__button--active');
+      });
 
+      element.addEventListener('click', debounce(() => {
         if (element.id === 'filter-random') {
-          debounce(filterRandom(allPhotos));
+          filterRandom(allPhotos);
         }
 
         if (element.id === 'filter-default') {
-          debounce(filterDefault(allPhotos));
+          filterDefault(allPhotos);
         }
 
         if (element.id === 'filter-discussed') {
-          debounce(filterDiscussed(allPhotos));
+          filterDiscussed(allPhotos);
         }
-      });
+      }));
     });
   };
   chooseElementMenu();
