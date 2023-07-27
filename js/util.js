@@ -4,7 +4,7 @@ const getRandomNumber = (left, right) => Math.trunc(Math.random() * (right + 1 -
 //случайное неповторяющееся массив из N элементов
 const getRandomArray = (array, count) => {
   const newArray = [];
-  let idArray = array.slice().map((element) => element.id);
+  const idArray = array.slice().map((element) => element.id);
 
   for (let i = 0; i < count; i++) {
     const choice = getRandomNumber(0, array.length - i - 1);
