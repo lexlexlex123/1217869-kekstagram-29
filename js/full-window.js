@@ -9,9 +9,7 @@ const countAdd = (element) => {
   return countListComment;
 };
 
-const renderComments = (allPhotos) => {
-  const bigPictureImg = document.querySelector('.big-picture__img img');
-  const photo = allPhotos.filter((p) => Number(p.id) === Number(bigPictureImg.id))[0];
+const renderComments = (photo) => {
   const listComments = photo.comments;
   const countListComments = Number(document.querySelector('.comments-count').textContent);
   const socialComments = document.querySelector('.social__comments');
@@ -85,6 +83,11 @@ const showFullWindowImg = (photo) => {
       close();
     }
   });
+
+  renderComments(photo);
+  //дозагрузка комментов
+  const loader = document.querySelector('.comments-loader');
+  loader.addEventListener('click', () => renderComments(photo));
 };
 
 export {showFullWindowImg, renderComments};
