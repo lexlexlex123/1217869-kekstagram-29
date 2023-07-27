@@ -1,5 +1,5 @@
 import {createPhotos, deletePhotos} from './picture.js';
-import {createRandomArray, debounce} from './util.js';
+import {getRandomArray, debounce} from './util.js';
 
 const filterMenu = (allPhotos) => {
   deletePhotos();
@@ -9,7 +9,7 @@ const filterMenu = (allPhotos) => {
 
   const filterRandom = (photos) => {
     deletePhotos();
-    const newAllPhotos = createRandomArray(photos, 10);
+    const newAllPhotos = getRandomArray(photos, 10);
     createPhotos(newAllPhotos);
   };
 
@@ -36,16 +36,13 @@ const filterMenu = (allPhotos) => {
       });
 
       element.addEventListener('click', debounce(() => {
-        if (element.id === 'filter-random') {
-          filterRandom(allPhotos);
-        }
-
-        if (element.id === 'filter-default') {
-          filterDefault(allPhotos);
-        }
-
-        if (element.id === 'filter-discussed') {
-          filterDiscussed(allPhotos);
+        switch (element.id) {
+          case ('filter-random'):
+            return filterRandom(allPhotos);
+          case ('filter-discussed'):
+            return filterDiscussed(allPhotos);
+          default :
+            return filterDefault(allPhotos);
         }
       }));
     });

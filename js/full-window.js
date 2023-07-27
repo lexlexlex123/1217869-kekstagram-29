@@ -1,19 +1,21 @@
-const countAdd = (element) => {
+const countAdd = (count) => {
   const countListComment = Number(document.querySelector('.comments-count').textContent);
-  const count = element.children.length;
 
   if (count + 5 < countListComment) {
     return count + 5;
   }
+
   document.querySelector('.comments-loader').classList.add('hidden');
   return countListComment;
 };
 
-const renderComments = (photo) => {
+const renderComments = (allPhotos) => {
+  const idImg = document.querySelector('.big-picture__img img').id;
+  const photo = allPhotos.filter((p) => Number(p.id) === Number(idImg))[0];
   const listComments = photo.comments;
   const countListComments = Number(document.querySelector('.comments-count').textContent);
   const socialComments = document.querySelector('.social__comments');
-  const count = countAdd(socialComments);
+  const count = countAdd(socialComments.children.length);
   socialComments.innerHTML = '';
 
   //заголовок перед комментами
@@ -43,6 +45,8 @@ const close = () => {
   if (bigPicture.classList.contains('hidden')) {
     return;
   }
+  const loader = document.querySelector('.comments-loader');
+  loader.removeEventListener('click', renderComments);
 
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -56,7 +60,7 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
-const showFullWindowImg = (photo) => {
+const showFullWindowImg = (allPhotos, photo) => {
   const bigPicture = document.querySelector('.big-picture');
   const bigPictureClose = document.querySelector('.big-picture__cancel');
   bigPicture.classList.remove('hidden');
@@ -69,9 +73,9 @@ const showFullWindowImg = (photo) => {
   commentCount.textContent = photo.comments.length;
   const description = document.querySelector('.social__caption');
   description.textContent = photo.description;
-  const socialComment = document.querySelector('.social__comments');
-  socialComment.innerHTML = '';
-  //renderComment(photo);
+  const socialComments = document.querySelector('.social__comments');
+  socialComments.innerHTML = '';
+
   //закрываем окно счетчика и прокрутку окна body
   document.body.classList.add('modal-open');
   bigPictureClose.addEventListener('click', () => close());
@@ -84,10 +88,7 @@ const showFullWindowImg = (photo) => {
     }
   });
 
-  renderComments(photo);
-  //дозагрузка комментов
-  const loader = document.querySelector('.comments-loader');
-  loader.addEventListener('click', () => renderComments(photo));
+  renderComments(allPhotos);
 };
 
 export {showFullWindowImg, renderComments};
