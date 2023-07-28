@@ -15,7 +15,7 @@ const close = () => {
   form.querySelector('.text__hashtags').value = '';
   form.querySelector('.text__description').value = '';
 
-  const buttonValue = document.querySelector('.scale__control--value');
+  const buttonValue = form.querySelector('.scale__control--value');
   buttonValue.value = '100%';
   const image = document.querySelector('.img-upload__preview img');
   image.style.transform = 'scale(1)';
@@ -158,9 +158,9 @@ const loadFormImg = () => {
 };
 
 const scaleImage = () => {
-  const buttonSmall = document.querySelector('.scale__control--smaller');
-  const buttonBig = document.querySelector('.scale__control--bigger');
-  const buttonValue = document.querySelector('.scale__control--value');
+  const buttonSmall = form.querySelector('.scale__control--smaller');
+  const buttonBig = form.querySelector('.scale__control--bigger');
+  const buttonValue = form.querySelector('.scale__control--value');
   buttonValue.value = '100%';
 
   const zoomImg = (direction) => {

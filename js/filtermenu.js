@@ -1,11 +1,13 @@
 import {createPhotos, deletePhotos} from './picture.js';
 import {getRandomArray, debounce} from './util.js';
 
-const filterMenu = (allPhotos) => {
+const filterMenu = (allPhotos = 0) => {
   deletePhotos();
   createPhotos(allPhotos);
   const imgFilters = document.querySelector('.img-filters');
-  imgFilters.classList.remove('img-filters--inactive');
+  if (allPhotos.length !== 0) {
+    imgFilters.classList.remove('img-filters--inactive');
+  }
 
   const filterRandom = (photos) => {
     deletePhotos();

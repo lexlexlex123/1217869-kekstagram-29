@@ -20,22 +20,18 @@ const renderComments = () => {
 
   //заголовок перед комментами
   const countTitle = document.querySelector('.social__comment-count');
-  countTitle.innerHTML = `
-    ${count} из <span class="comments-count">${countListComments}</span> комментариев
-  `;
+  countTitle.innerHTML = `${count} из <span class="comments-count">${countListComments}</span> комментариев`;
 
   for (let i = 0; i < count; i++) {
     const comment = listComments[i];
     const li = document.createElement('li');
     li.classList.add('social__comment');
-    li.innerHTML = `
-    <img
+    li.innerHTML = `<img
         class="social__picture"
         src=${comment.avatar}
         alt=${comment.name}
         width="35" height="35">
-    <p class="social__text">${comment.message}</p>
-    `;
+    <p class="social__text">${comment.message}</p>`;
     socialComments.appendChild(li);
   }
 };
