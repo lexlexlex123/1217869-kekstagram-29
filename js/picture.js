@@ -1,5 +1,5 @@
 import {showFullWindowImg} from './full-window.js';
-import {renderComments} from './comments.js';
+import {renderComment} from './comments.js';
 
 const createPhotos = (allPhotos) => {
   const fragment = new DocumentFragment();
@@ -32,10 +32,7 @@ const createPhotos = (allPhotos) => {
     const photo = allPhotos.filter((p) => Number(p.id) === Number(img.id))[0];
     picture.addEventListener('click', () => {
       showFullWindowImg(photo);
-      renderComments();
-      //дозагрузка комментов
-      const loader = document.querySelector('.comments-loader');
-      loader.addEventListener('click', renderComments);
+      renderComment(photo);
     });
   });
 };

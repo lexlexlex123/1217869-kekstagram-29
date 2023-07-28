@@ -1,3 +1,5 @@
+import {sendData} from './data.js';
+
 const form = document.querySelector('.img-upload__form');
 
 const close = () => {
@@ -115,14 +117,15 @@ const showErrorMessange = () => {
   });
 };
 
-const setOnFormSubmit = (callback) => {
+const setOnFormSubmit = () => {
   form.addEventListener('submit', async (evt) => {
     evt.preventDefault();
 
     if (pristine.validate()) {
       try {
-        await callback(new FormData(form));
+        const data = new FormData(form);
         showOkMessange();
+        await sendData(data);
         close();
       } catch {
         showErrorMessange();
@@ -135,17 +138,20 @@ const loadFormImg = () => {
   const file = document.querySelector('#upload-file');
 
   file.addEventListener('change', () => {
-    //отобразим картинку
-    const changeImg = document.querySelector('.img-upload__overlay');
-    changeImg.classList.remove('hidden');
-    document.body.classList.add('modal-open');
+    //отобразим картинку если jpg png
+    if (file.files[0].name.endsWith('jpg') || file.files[0].name.endsWith('png')) {
+      const changeImg = document.querySelector('.img-upload__overlay');
+      changeImg.classList.remove('hidden');
+      document.body.classList.add('modal-open');
 
-    const image = document.querySelector('.img-upload__preview img');
-    image.src = URL.createObjectURL(file.files[0]);
-    const effectImgs = document.querySelectorAll('.effects__preview');
-    effectImgs.forEach((img) => {
-      img.style.backgroundImage = `url(${image.src})`;
-    });
+      const image = document.querySelector('.img-upload__preview img');
+      image.src = URL.createObjectURL(file.files[0]);
+      const effectImgs = document.querySelectorAll('.effects__preview');
+      effectImgs.forEach((img) => {
+        img.style.backgroundImage = `url(${image.src})`;
+      });
+      scaleImage();
+    }
   });
 };
 
@@ -153,6 +159,7 @@ const scaleImage = () => {
   const buttonSmall = document.querySelector('.scale__control--smaller');
   const buttonBig = document.querySelector('.scale__control--bigger');
   const buttonValue = document.querySelector('.scale__control--value');
+  buttonValue.value = '100%';
 
   const zoomImg = (direction) => {
     const image = document.querySelector('.img-upload__preview img');
@@ -203,11 +210,6 @@ const changeFilterEffect = () => {
     fieldSlider.style.display = 'block';
 
     switch (true) {
-      case (effectNone.checked) :
-        image.style.filter = 'none';
-        sliderValue.value = 0;
-        fieldSlider.style.display = 'none';
-        break;
       case (effectChrome.checked) :
         image.style.filter = `grayscale(${value / 100})`;
         break;
@@ -222,6 +224,11 @@ const changeFilterEffect = () => {
         break;
       case (effectHeat.checked) :
         image.style.filter = `brightness(${1 + value * 2 / 100})`;
+        break;
+      default:
+        image.style.filter = 'none';
+        sliderValue.value = 0;
+        fieldSlider.style.display = 'none';
         break;
     }
   };
