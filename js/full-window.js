@@ -1,53 +1,8 @@
-const countAdd = (count) => {
-  const countListComment = Number(document.querySelector('.comments-count').textContent);
-
-  if (count + 5 < countListComment) {
-    return count + 5;
-  }
-
-  document.querySelector('.comments-loader').classList.add('hidden');
-  return countListComment;
-};
-
-const renderComments = (allPhotos) => {
-  const idImg = document.querySelector('.big-picture__img img').id;
-  const photo = allPhotos.filter((p) => Number(p.id) === Number(idImg))[0];
-  const listComments = photo.comments;
-  const countListComments = Number(document.querySelector('.comments-count').textContent);
-  const socialComments = document.querySelector('.social__comments');
-  const count = countAdd(socialComments.children.length);
-  socialComments.innerHTML = '';
-
-  //заголовок перед комментами
-  const countTitle = document.querySelector('.social__comment-count');
-  countTitle.innerHTML = `
-    ${count} из <span class="comments-count">${countListComments}</span> комментариев
-  `;
-
-  for (let i = 0; i < count; i++) {
-    const comment = listComments[i];
-    const li = document.createElement('li');
-    li.classList.add('social__comment');
-    li.innerHTML = `
-    <img
-        class="social__picture"
-        src=${comment.avatar}
-        alt=${comment.name}
-        width="35" height="35">
-    <p class="social__text">${comment.message}</p>
-    `;
-    socialComments.appendChild(li);
-  }
-};
-
 const close = () => {
   const bigPicture = document.querySelector('.big-picture');
   if (bigPicture.classList.contains('hidden')) {
     return;
   }
-  const loader = document.querySelector('.comments-loader');
-  loader.removeEventListener('click', renderComments);
-
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.querySelector('.comments-loader').classList.remove('hidden');
@@ -60,7 +15,7 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
-const showFullWindowImg = (allPhotos, photo) => {
+const showFullWindowImg = (photo) => {
   const bigPicture = document.querySelector('.big-picture');
   const bigPictureClose = document.querySelector('.big-picture__cancel');
   bigPicture.classList.remove('hidden');
@@ -87,8 +42,6 @@ const showFullWindowImg = (allPhotos, photo) => {
       close();
     }
   });
-
-  renderComments(allPhotos);
 };
 
-export {showFullWindowImg, renderComments};
+export {showFullWindowImg};
