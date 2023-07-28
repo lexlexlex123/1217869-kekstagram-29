@@ -144,13 +144,15 @@ const loadFormImg = () => {
       changeImg.classList.remove('hidden');
       document.body.classList.add('modal-open');
 
+      const buttonSubmit = document.querySelector('.img-upload__submit');
+      buttonSubmit.disabled = false;
+
       const image = document.querySelector('.img-upload__preview img');
       image.src = URL.createObjectURL(file.files[0]);
       const effectImgs = document.querySelectorAll('.effects__preview');
       effectImgs.forEach((img) => {
         img.style.backgroundImage = `url(${image.src})`;
       });
-      scaleImage();
     }
   });
 };
@@ -178,12 +180,10 @@ const scaleImage = () => {
   };
 
   buttonSmall.addEventListener('click', () => zoomImg(-25));
-
   buttonBig.addEventListener('click', () => zoomImg(25));
 };
 
 const changeFilterEffect = () => {
-  const effectNone = document.querySelector('#effect-none');
   const effectChrome = document.querySelector('#effect-chrome');
   const effectSepia = document.querySelector('#effect-sepia');
   const effectMarvin = document.querySelector('#effect-marvin');
@@ -245,4 +245,4 @@ const changeFilterEffect = () => {
   });
 };
 
-export {validateForm, loadFormImg, scaleImage, changeFilterEffect, setOnFormSubmit};
+export {validateForm, scaleImage, loadFormImg, changeFilterEffect, setOnFormSubmit};

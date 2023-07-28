@@ -4,6 +4,7 @@ import {filterMenu} from './filtermenu.js';
 
 const allPhotos = await getData();
 filterMenu(allPhotos);
+scaleImage();
 setOnFormSubmit();
 loadFormImg();
 validateForm();
