@@ -29,7 +29,7 @@ const close = () => {
   image.style.filter = 'none';
 
   const slider = document.querySelector('.effect-level__slider');
-  slider.noUiSlider.set(0);
+  slider.noUiSlider.set(1);
 
   const buttonSubmit = document.querySelector('.img-upload__submit');
   buttonSubmit.disabled = false;
@@ -257,10 +257,10 @@ const changeFilterEffect = () => {
   noUiSlider.create(slider, {
     range: {
       min: 0,
-      max: 100,
+      max: 1,
     },
     start: 0,
-    step: 10,
+    step: 0.10,
     connect: 'lower',
   });
 
@@ -271,23 +271,23 @@ const changeFilterEffect = () => {
 
     switch (true) {
       case (effectChrome.checked) :
-        image.style.filter = `grayscale(${value / 100})`;
+        image.style.filter = `grayscale(${value})`;
         break;
       case (effectSepia.checked) :
-        image.style.filter = `sepia(${value / 100})`;
+        image.style.filter = `sepia(${value})`;
         break;
       case (effectMarvin.checked) :
-        image.style.filter = `invert(${value / 100})`;
+        image.style.filter = `invert(${value})`;
         break;
       case (effectPhobos.checked) :
-        image.style.filter = `blur(${value * 3 / 100}px)`;
+        image.style.filter = `blur(${value * 3}px)`;
         break;
       case (effectHeat.checked) :
-        image.style.filter = `brightness(${1 + value * 2 / 100})`;
+        image.style.filter = `brightness(${1 + value * 2})`;
         break;
       default:
         image.style.filter = 'none';
-        sliderValue.value = 0;
+        sliderValue.value = 1;
         fieldSlider.classList.add('hidden');
         break;
     }
@@ -300,8 +300,8 @@ const changeFilterEffect = () => {
   });
 
   effectsList.addEventListener('click', () => {
-    sliderValue.value = 0;
-    slider.noUiSlider.set(0);
+    sliderValue.value = 1;
+    slider.noUiSlider.set(1);
     setValueEffect();
   });
 };
