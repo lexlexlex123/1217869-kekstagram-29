@@ -34,11 +34,27 @@ const close = () => {
   const buttonSubmit = document.querySelector('.img-upload__submit');
   buttonSubmit.disabled = false;
   pristine.reset();
+
+  const effectNone = document.querySelector('#effect-none');
+  effectNone.checked = true;
 };
 
 //скрытие отображение картинки по клику на пустую область
 const closeImg = document.querySelector('.img-upload__overlay');
 closeImg.addEventListener('click', (evt) => {
+  if (document.querySelector('.error') !== null) {
+    const sectionError = document.querySelector('.error');
+    document.querySelector('.pictures').removeChild(sectionError);
+    return;
+  }
+
+  if (document.querySelector('.success') !== null) {
+    const sectionError = document.querySelector('.success');
+    document.querySelector('.pictures').removeChild(sectionError);
+    close();
+    return;
+  }
+
   if (evt.target === closeImg) {
     close();
   }
@@ -118,35 +134,60 @@ const validateForm = () => {
 const showOkMessange = () => {
   const ok = document.querySelector('#success').content.cloneNode(true);
   document.querySelector('.pictures').appendChild(ok);
-  const okButton = document.querySelector('.success__button');
-  okButton.addEventListener('click', () => {
-    const sectionError = document.querySelector('.success');
-    document.querySelector('.pictures').removeChild(sectionError);
+  const sectionError = document.querySelector('.success');
+  const buttonSubmit = document.querySelector('.img-upload__submit');
+  buttonSubmit.disabled = true;
+
+  sectionError.addEventListener('click', (evt) => {
+    const successInner = document.querySelector('.success__inner');
+
+    if (evt.target !== successInner) {
+      buttonSubmit.disabled = false;
+      document.querySelector('.pictures').removeChild(sectionError);
+    }
   });
 };
 
 const showErrorMessange = () => {
   const error = document.querySelector('#error').content.cloneNode(true);
   document.querySelector('.pictures').appendChild(error);
-  const errorButton = document.querySelector('.error__button');
-  errorButton.addEventListener('click', () => {
-    const sectionError = document.querySelector('.error');
-    document.querySelector('.pictures').removeChild(sectionError);
+  const sectionError = document.querySelector('.error');
+  const buttonSubmit = document.querySelector('.img-upload__submit');
+  buttonSubmit.disabled = false;
+
+  sectionError.addEventListener('click', (evt) => {
+    const errorInner = document.querySelector('.error__inner');
+
+    if (evt.target !== errorInner) {
+      document.querySelector('.pictures').removeChild(sectionError);
+    }
   });
 };
 
 const setOnFormSubmit = () => {
-  form.addEventListener('submit', (evt) => {
+  const buttonSubmit = document.querySelector('.img-upload__submit');
+
+  buttonSubmit.addEventListener('click', (evt) => {
     evt.preventDefault();
-    const buttonSubmit = document.querySelector('.img-upload__submit');
     buttonSubmit.disabled = true;
+    //const t = () => pristine.validate();
 
     if (pristine.validate()) {
-      pristine.reset();
+      const data = new FormData(form);
+      sendData(data).then(() => {showOkMessange(); close()}).catch(showErrorMessange);
+    } else {
+      buttonSubmit.disabled = false;
+    }
+  });
+
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    if (pristine.validate()) {
       const data = new FormData(form);
       buttonSubmit.disabled = false;
-      showOkMessange();
-      sendData(data).then(close).catch(showErrorMessange);
+      pristine.reset();
+      sendData(data).then(() => {showOkMessange(); close()}).catch(showErrorMessange);
     }
   });
 };
@@ -254,6 +295,7 @@ const changeFilterEffect = () => {
 
   slider.noUiSlider.on('update', () => {
     sliderValue.value = slider.noUiSlider.get();
+    sliderValue.setAttribute('value', slider.noUiSlider.get());
     setValueEffect();
   });
 
@@ -263,8 +305,5 @@ const changeFilterEffect = () => {
     setValueEffect();
   });
 };
-
-// const textHashtags = document.querySelector('.text__hashtags');
-// textHashtags.addEventListener('input', validateForm);
 
 export {validateForm, scaleImage, loadFormImg, changeFilterEffect, setOnFormSubmit};
