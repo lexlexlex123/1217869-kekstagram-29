@@ -2,6 +2,13 @@ import {sendData} from './data.js';
 
 const form = document.querySelector('.img-upload__form');
 
+const pristine = new Pristine(form, {
+  classTo: 'img-upload__text',
+  errorTextParent: 'img-upload__text',
+  errorTextTag: 'div',
+  errorTextClass: 'error-validate'
+});
+
 const close = () => {
   const changeImg = document.querySelector('.img-upload__overlay');
   const file = document.querySelector('#upload-file');
@@ -25,7 +32,8 @@ const close = () => {
   slider.noUiSlider.set(0);
 
   const buttonSubmit = document.querySelector('.img-upload__submit');
-  buttonSubmit.disabled = true;
+  buttonSubmit.disabled = false;
+  pristine.reset();
 };
 
 //скрытие отображение картинки по клику на пустую область
@@ -46,17 +54,29 @@ closeButton.addEventListener('click', () => {
 document.addEventListener('keydown', (evt) => {
   const noFocus = (form.querySelector('.text__hashtags') !== document.activeElement) && (form.querySelector('.text__description') !== document.activeElement);
 
+  if (document.querySelector('.error') !== null) {
+    evt.preventDefault();
+    const sectionError = document.querySelector('.error');
+    document.querySelector('.pictures').removeChild(sectionError);
+    const buttonSubmit = document.querySelector('.img-upload__submit');
+    buttonSubmit.disabled = false;
+    return;
+  }
+
+  if (document.querySelector('.success') !== null) {
+    evt.preventDefault();
+    const sectionError = document.querySelector('.success');
+    document.querySelector('.pictures').removeChild(sectionError);
+    const buttonSubmit = document.querySelector('.img-upload__submit');
+    buttonSubmit.disabled = true;
+    close();
+    return;
+  }
+
   if ((evt.key === 'Escape') && (noFocus)) {
     evt.preventDefault();
     close();
   }
-});
-
-const pristine = new Pristine(form, {
-  classTo: 'img-upload__text',
-  errorTextParent: 'img-upload__text',
-  errorTextTag: 'div',
-  errorTextClass: 'error-validate'
 });
 
 const validateForm = () => {
@@ -118,10 +138,13 @@ const showErrorMessange = () => {
 const setOnFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
+    const buttonSubmit = document.querySelector('.img-upload__submit');
+    buttonSubmit.disabled = true;
 
     if (pristine.validate()) {
       pristine.reset();
       const data = new FormData(form);
+      buttonSubmit.disabled = false;
       showOkMessange();
       sendData(data).then(close).catch(showErrorMessange);
     }
@@ -240,5 +263,8 @@ const changeFilterEffect = () => {
     setValueEffect();
   });
 };
+
+// const textHashtags = document.querySelector('.text__hashtags');
+// textHashtags.addEventListener('input', validateForm);
 
 export {validateForm, scaleImage, loadFormImg, changeFilterEffect, setOnFormSubmit};
