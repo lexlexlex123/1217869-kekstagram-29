@@ -1,4 +1,7 @@
-const createPhoto = (allPhotos) => {
+import {showFullWindowImg} from './full-window.js';
+import {renderComment} from './comments.js';
+
+const createPhotos = (allPhotos) => {
   const fragment = new DocumentFragment();
 
   for (const photo of allPhotos) {
@@ -20,8 +23,26 @@ const createPhoto = (allPhotos) => {
     fragment.append(picture);
   }
 
-  const pictures = document.querySelector('.pictures');
-  pictures.append(fragment);
+  const pictureContainer = document.querySelector('.pictures');
+  pictureContainer.append(fragment);
+
+  const pictures = pictureContainer.querySelectorAll('.picture');
+  pictures.forEach((picture) => {
+    const img = picture.querySelector('.picture__img');
+    const photo = allPhotos.filter((p) => Number(p.id) === Number(img.id))[0];
+    picture.addEventListener('click', () => {
+      showFullWindowImg(photo);
+      renderComment(photo);
+    });
+  });
 };
 
-export {createPhoto};
+const deletePhotos = () => {
+  const pictureContainer = document.querySelector('.pictures');
+  const pictures = document.querySelectorAll('.picture');
+  pictures.forEach((picture) => {
+    pictureContainer.removeChild(picture);
+  });
+};
+
+export {createPhotos, deletePhotos};

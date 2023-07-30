@@ -1,17 +1,10 @@
-import {createPhoto} from './picture.js';
-import {showFullWindowImg} from './full-window.js';
 import {validateForm, loadFormImg, scaleImage, changeFilterEffect, setOnFormSubmit} from './form.js';
-import {getData, sendData} from './data.js';
+import {getData} from './data.js';
+import {filterMenu} from './filtermenu.js';
 
-setOnFormSubmit(async (data) => {
-  await sendData(data);
-});
-
-const allPhotos = await getData();
-createPhoto(allPhotos);
-showFullWindowImg(allPhotos);
+getData().then((allPhotos) => filterMenu(allPhotos));
+scaleImage();
+setOnFormSubmit();
 loadFormImg();
 validateForm();
-scaleImage();
 changeFilterEffect();
-sendData();
