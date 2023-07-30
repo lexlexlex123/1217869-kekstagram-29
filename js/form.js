@@ -118,8 +118,6 @@ const showErrorMessange = () => {
 const setOnFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const buttonSubmit = document.querySelector('.img-upload__submit');
-    buttonSubmit.disabled = true;
 
     if (pristine.validate()) {
       pristine.reset();
@@ -231,8 +229,7 @@ const changeFilterEffect = () => {
   };
 
   slider.noUiSlider.on('update', () => {
-    document.querySelector('.effect-level__value').value = slider.noUiSlider.get();
-    console.log(document.querySelector('.effect-level__value').value);
+    sliderValue.value = slider.noUiSlider.get();
     setValueEffect();
   });
 
