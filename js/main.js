@@ -2,8 +2,7 @@ import {validateForm, loadFormImg, scaleImage, changeFilterEffect, setOnFormSubm
 import {getData} from './data.js';
 import {filterMenu} from './filtermenu.js';
 
-const allPhotos = await getData();
-filterMenu(allPhotos);
+getData().then((allPhotos) => filterMenu(allPhotos));
 scaleImage();
 setOnFormSubmit();
 loadFormImg();

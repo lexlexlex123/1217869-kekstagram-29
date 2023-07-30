@@ -23,8 +23,6 @@ const close = () => {
 
   const slider = document.querySelector('.effect-level__slider');
   slider.noUiSlider.set(0);
-  const fieldSlider = document.querySelector('.img-upload__effect-level');
-  fieldSlider.style.display = 'none';
 
   const buttonSubmit = document.querySelector('.img-upload__submit');
   buttonSubmit.disabled = true;
@@ -118,18 +116,16 @@ const showErrorMessange = () => {
 };
 
 const setOnFormSubmit = () => {
-  form.addEventListener('submit', async (evt) => {
+  form.addEventListener('submit', (evt) => {
     evt.preventDefault();
+    const buttonSubmit = document.querySelector('.img-upload__submit');
+    buttonSubmit.disabled = true;
 
     if (pristine.validate()) {
-      try {
-        const data = new FormData(form);
-        showOkMessange();
-        await sendData(data);
-        close();
-      } catch {
-        showErrorMessange();
-      }
+      pristine.reset();
+      const data = new FormData(form);
+      showOkMessange();
+      sendData(data).then(close).catch(showErrorMessange);
     }
   });
 };
@@ -138,13 +134,14 @@ const loadFormImg = () => {
   const file = document.querySelector('#upload-file');
 
   file.addEventListener('change', () => {
+    const buttonSubmit = document.querySelector('.img-upload__submit');
+    buttonSubmit.disabled = true;
     //отобразим картинку если jpg png
     if (file.files[0].name.endsWith('jpg') || file.files[0].name.endsWith('png')) {
       const changeImg = document.querySelector('.img-upload__overlay');
       changeImg.classList.remove('hidden');
       document.body.classList.add('modal-open');
 
-      const buttonSubmit = document.querySelector('.img-upload__submit');
       buttonSubmit.disabled = false;
 
       const image = document.querySelector('.img-upload__preview img');
@@ -207,7 +204,7 @@ const changeFilterEffect = () => {
 
   const setValueEffect = () => {
     const value = sliderValue.value;
-    fieldSlider.style.display = 'block';
+    fieldSlider.classList.remove('hidden');
 
     switch (true) {
       case (effectChrome.checked) :
@@ -228,13 +225,14 @@ const changeFilterEffect = () => {
       default:
         image.style.filter = 'none';
         sliderValue.value = 0;
-        fieldSlider.style.display = 'none';
+        fieldSlider.classList.add('hidden');
         break;
     }
   };
 
   slider.noUiSlider.on('update', () => {
-    sliderValue.value = slider.noUiSlider.get();
+    document.querySelector('.effect-level__value').value = slider.noUiSlider.get();
+    console.log(document.querySelector('.effect-level__value').value);
     setValueEffect();
   });
 
