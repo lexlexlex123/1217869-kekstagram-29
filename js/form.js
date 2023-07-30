@@ -202,6 +202,7 @@ const changeFilterEffect = () => {
 
   const setValueEffect = () => {
     const value = sliderValue.value;
+
     fieldSlider.classList.remove('hidden');
 
     switch (true) {
