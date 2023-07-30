@@ -259,10 +259,49 @@ const changeFilterEffect = () => {
       min: 0,
       max: 1,
     },
-    start: 0,
+    start: 1,
     step: 0.10,
     connect: 'lower',
   });
+
+  const settingsSlider = {
+    'default': {
+      range: {
+        min: 0,
+        max: 1,
+      },
+      start: 1,
+      step: 0.10,
+      connect: 'lower',
+    },
+    'invert': {
+      range: {
+        min: 0,
+        max: 1,
+      },
+      start: 1,
+      step: 0.01,
+      connect: 'lower',
+    },
+    'phobos': {
+      range: {
+        min: 0,
+        max: 3,
+      },
+      start: 3,
+      step: 0.1,
+      connect: 'lower',
+    },
+    'heat': {
+      range: {
+        min: 1,
+        max: 3,
+      },
+      start: 3,
+      step: 0.1,
+      connect: 'lower',
+    },
+  }
 
   const setValueEffect = () => {
     const value = sliderValue.value;
@@ -280,10 +319,10 @@ const changeFilterEffect = () => {
         image.style.filter = `invert(${value})`;
         break;
       case (effectPhobos.checked) :
-        image.style.filter = `blur(${value * 3}px)`;
+        image.style.filter = `blur(${value}px)`;
         break;
       case (effectHeat.checked) :
-        image.style.filter = `brightness(${1 + value * 2})`;
+        image.style.filter = `brightness(${value})`;
         break;
       default:
         image.style.filter = 'none';
@@ -302,8 +341,49 @@ const changeFilterEffect = () => {
   effectsList.addEventListener('click', () => {
     sliderValue.value = 1;
     slider.noUiSlider.set(1);
-    setValueEffect();
+
+    switch (true) {
+      case (effectChrome.checked) :
+        slider.noUiSlider.updateOptions(settingsSlider.default);
+        break;
+      case (effectSepia.checked) :
+        slider.noUiSlider.updateOptions(settingsSlider.default);
+        break;
+      case (effectMarvin.checked) :
+        slider.noUiSlider.updateOptions(settingsSlider.invert);
+        break;
+      case (effectPhobos.checked) :
+        slider.noUiSlider.updateOptions(settingsSlider.phobos);
+        slider.noUiSlider.set(3);
+        break;
+      case (effectHeat.checked) :
+        slider.noUiSlider.updateOptions(settingsSlider.heat);
+        slider.noUiSlider.set(3);
+        break;
+      default:
+        slider.noUiSlider.updateOptions(settingsSlider.default);
+        break;
+    }
   });
 };
+
+const textField = document.querySelector('.img-upload__text');
+const buttonSubmit = document.querySelector('.img-upload__submit');
+
+const observer = new MutationObserver(mutationRecords => {
+  const element = mutationRecords[0];
+
+  if (element.addedNodes.length !== 0 && element.addedNodes[0].textContent !== '') {
+    buttonSubmit.disabled = true
+  } else {
+    buttonSubmit.disabled = false
+  }
+});
+
+observer.observe(textField, {
+  childList: true, // наблюдать за непосредственными детьми
+  subtree: true, // и более глубокими потомками
+  characterDataOldValue: true // передавать старое значение в колбэк
+});
 
 export {validateForm, scaleImage, loadFormImg, changeFilterEffect, setOnFormSubmit};
