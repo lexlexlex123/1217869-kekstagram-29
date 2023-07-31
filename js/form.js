@@ -1,6 +1,8 @@
 import {sendData} from './data.js';
 
 const form = document.querySelector('.img-upload__form');
+const buttonSubmit = document.querySelector('.img-upload__submit');
+let sendForm = false;
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__text',
@@ -31,7 +33,6 @@ const close = () => {
   const slider = document.querySelector('.effect-level__slider');
   slider.noUiSlider.set(1);
 
-  const buttonSubmit = document.querySelector('.img-upload__submit');
   buttonSubmit.disabled = false;
   pristine.reset();
 
@@ -74,7 +75,6 @@ document.addEventListener('keydown', (evt) => {
     evt.preventDefault();
     const sectionError = document.querySelector('.error');
     document.querySelector('.pictures').removeChild(sectionError);
-    const buttonSubmit = document.querySelector('.img-upload__submit');
     buttonSubmit.disabled = false;
     return;
   }
@@ -83,7 +83,6 @@ document.addEventListener('keydown', (evt) => {
     evt.preventDefault();
     const sectionError = document.querySelector('.success');
     document.querySelector('.pictures').removeChild(sectionError);
-    const buttonSubmit = document.querySelector('.img-upload__submit');
     buttonSubmit.disabled = true;
     close();
     return;
@@ -135,7 +134,6 @@ const showOkMessange = () => {
   const ok = document.querySelector('#success').content.cloneNode(true);
   document.querySelector('.pictures').appendChild(ok);
   const sectionError = document.querySelector('.success');
-  const buttonSubmit = document.querySelector('.img-upload__submit');
   buttonSubmit.disabled = true;
 
   sectionError.addEventListener('click', (evt) => {
@@ -152,7 +150,7 @@ const showErrorMessange = () => {
   const error = document.querySelector('#error').content.cloneNode(true);
   document.querySelector('.pictures').appendChild(error);
   const sectionError = document.querySelector('.error');
-  const buttonSubmit = document.querySelector('.img-upload__submit');
+  sendForm = false;
   buttonSubmit.disabled = false;
 
   sectionError.addEventListener('click', (evt) => {
@@ -165,23 +163,20 @@ const showErrorMessange = () => {
 };
 
 const setOnFormSubmit = () => {
-  const buttonSubmit = document.querySelector('.img-upload__submit');
-
   buttonSubmit.addEventListener('click', (evt) => {
     evt.preventDefault();
     buttonSubmit.disabled = true;
-    //const t = () => pristine.validate();
+    sendForm = true;
 
     if (pristine.validate()) {
       const data = new FormData(form);
       sendData(data).then(() => {showOkMessange(); close()}).catch(showErrorMessange);
-    } else {
-      buttonSubmit.disabled = false;
     }
   });
 
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
+    buttonSubmit.disabled = true;
 
     if (pristine.validate()) {
       const data = new FormData(form);
@@ -196,7 +191,6 @@ const loadFormImg = () => {
   const file = document.querySelector('#upload-file');
 
   file.addEventListener('change', () => {
-    const buttonSubmit = document.querySelector('.img-upload__submit');
     buttonSubmit.disabled = true;
     //отобразим картинку если jpg png
     if (file.files[0].name.endsWith('jpg') || file.files[0].name.endsWith('png')) {
@@ -225,17 +219,18 @@ const scaleImage = () => {
   const zoomImg = (direction) => {
     const image = document.querySelector('.img-upload__preview img');
     const digitValue = Number(buttonValue.value.replace('%',''));
+    let zoomValue = direction;
 
-    if ((digitValue === 25) && (direction < 0)) {
-      direction = 0;
+    if ((digitValue === 25) && (zoomValue < 0)) {
+      zoomValue = 0;
     }
 
-    if ((digitValue === 100) && (direction > 0)) {
-      direction = 0;
+    if ((digitValue === 100) && (zoomValue > 0)) {
+      zoomValue = 0;
     }
 
-    buttonValue.value = `${digitValue + direction}%`;
-    image.style.transform = `scale(${(digitValue + direction) / 100})`;
+    buttonValue.value = `${digitValue + zoomValue}%`;
+    image.style.transform = `scale(${(digitValue + zoomValue) / 100})`;
   };
 
   buttonSmall.addEventListener('click', () => zoomImg(-25));
@@ -368,7 +363,6 @@ const changeFilterEffect = () => {
 };
 
 const textField = document.querySelector('.img-upload__text');
-const buttonSubmit = document.querySelector('.img-upload__submit');
 
 const observer = new MutationObserver(mutationRecords => {
   const element = mutationRecords[0];
@@ -378,6 +372,9 @@ const observer = new MutationObserver(mutationRecords => {
   } else {
     buttonSubmit.disabled = false
   }
+
+  if (sendForm) buttonSubmit.disabled = true;
+
 });
 
 observer.observe(textField, {
