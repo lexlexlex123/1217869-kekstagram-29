@@ -170,7 +170,12 @@ const setOnFormSubmit = () => {
 
     if (pristine.validate()) {
       const data = new FormData(form);
-      sendData(data).then(() => {showOkMessange(); close()}).catch(showErrorMessange);
+      sendData(data)
+        .then(() => {
+          showOkMessange();
+          close();
+        })
+        .catch(showErrorMessange);
     }
   });
 
@@ -182,7 +187,12 @@ const setOnFormSubmit = () => {
       const data = new FormData(form);
       buttonSubmit.disabled = false;
       pristine.reset();
-      sendData(data).then(() => {showOkMessange(); close()}).catch(showErrorMessange);
+      sendData(data)
+        .then(() => {
+          showOkMessange();
+          close();
+        })
+        .catch(showErrorMessange);
     }
   });
 };
@@ -296,7 +306,7 @@ const changeFilterEffect = () => {
       step: 0.1,
       connect: 'lower',
     },
-  }
+  };
 
   const setValueEffect = () => {
     const value = sliderValue.value;
@@ -364,16 +374,18 @@ const changeFilterEffect = () => {
 
 const textField = document.querySelector('.img-upload__text');
 
-const observer = new MutationObserver(mutationRecords => {
+const observer = new MutationObserver((mutationRecords) => {
   const element = mutationRecords[0];
 
   if (element.addedNodes.length !== 0 && element.addedNodes[0].textContent !== '') {
-    buttonSubmit.disabled = true
+    buttonSubmit.disabled = true;
   } else {
-    buttonSubmit.disabled = false
+    buttonSubmit.disabled = false;
   }
 
-  if (sendForm) buttonSubmit.disabled = true;
+  if (sendForm) {
+    buttonSubmit.disabled = true;
+  }
 
 });
 
