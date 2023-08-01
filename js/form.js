@@ -104,9 +104,7 @@ const validateForm = () => {
     return words.length === repeatWords.size;
   };
 
-  const validateComments = (element) => {
-    return element.length <= 140;
-  };
+  const validateComments = (element) => element.length <= 140;
 
   pristine.addValidator(form.querySelector('.text__hashtags'), (element) => validateHashTagBlank(element), 'недопустипый хэштег');
   pristine.addValidator(form.querySelector('.text__hashtags'), (element) => validateHashTagCount(element), 'хэштегов больше 5');
@@ -220,7 +218,7 @@ const changeFilterEffect = () => {
   const sliderValue = document.querySelector('.effect-level__value');
   const fieldSlider = document.querySelector('.img-upload__effect-level');
 
-  showSlider()
+  showSlider();
 
   const setValueEffect = () => {
     const value = sliderValue.value;

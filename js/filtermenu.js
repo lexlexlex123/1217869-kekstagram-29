@@ -2,7 +2,7 @@ import {createPhotos, deletePhotos} from './picture.js';
 import {getRandomArray, debounce} from './util.js';
 
 const filter = (allPhotos = [], evt) => {
-  let idPhoto = evt.id;
+  const idPhoto = evt.id;
 
   deletePhotos();
   let newAllPhotos = allPhotos;
@@ -11,9 +11,11 @@ const filter = (allPhotos = [], evt) => {
     case ('filter-random'):
       newAllPhotos = getRandomArray(allPhotos, 10);
       break;
-    case ('filter-discussed'):
+    case ('filter-discussed'): {
       const compareDiscussedCount = (photo1, photo2) => photo2.comments.length - photo1.comments.length;
       newAllPhotos = allPhotos.slice().sort(compareDiscussedCount);
+      break;
+    }
   }
 
   createPhotos(newAllPhotos);
@@ -27,9 +29,10 @@ const onClickButton = (evt) => {
     imgFilterButtons.forEach((element) => {
       element.classList.remove('img-filters__button--active');
     });
+
     evt.target.classList.add('img-filters__button--active');
   }
-}
+};
 
 const filterMenu = (allPhotos) => {
   const filterPhotos = (e) => filter(allPhotos, e);
@@ -48,6 +51,6 @@ const filterMenu = (allPhotos) => {
   filterRandom.addEventListener('click', debounce((e) => filterPhotos(e.srcElement)));
   filterDiscussed.addEventListener('click', debounce((e) => filterPhotos(e.srcElement)));
   imgFilters.addEventListener('click', (e) => onClickButton(e));
-}
+};
 
 export {filterMenu};

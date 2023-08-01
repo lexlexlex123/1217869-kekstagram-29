@@ -10,7 +10,7 @@ const showSlider = () => {
     step: 0.10,
     connect: 'lower',
   });
-}
+};
 
 const getSettingsSlider = (value) => {
   const settingsSlider = {
@@ -52,6 +52,6 @@ const getSettingsSlider = (value) => {
     },
   };
   slider.noUiSlider.updateOptions(settingsSlider[value]);
-}
+};
 
 export {showSlider, getSettingsSlider};
