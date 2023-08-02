@@ -45,31 +45,6 @@ const close = () => {
   slider.noUiSlider.set(1);
 };
 
-changeImg.addEventListener('click', (evt) => {
-  if (document.querySelector('.error') !== null) {
-    const sectionError = document.querySelector('.error');
-    document.querySelector('.pictures').removeChild(sectionError);
-    return;
-  }
-
-  if (document.querySelector('.success') !== null) {
-    const sectionError = document.querySelector('.success');
-    document.querySelector('.pictures').removeChild(sectionError);
-    close();
-    document.removeEventListener('keydown', onDocumentKeydown);
-    return;
-  }
-
-  if (evt.target === changeImg) {
-    close();
-  }
-});
-
-const closeButton = document.querySelector('#upload-cancel');
-closeButton.addEventListener('click', () => {
-  close();
-});
-
 const onDocumentKeydown = (evt) => {
   const noFocus = (form.querySelector('.text__hashtags') !== document.activeElement) && (form.querySelector('.text__description') !== document.activeElement);
 
@@ -95,6 +70,31 @@ const onDocumentKeydown = (evt) => {
     close();
   }
 };
+
+changeImg.addEventListener('click', (evt) => {
+  if (document.querySelector('.error') !== null) {
+    const sectionError = document.querySelector('.error');
+    document.querySelector('.pictures').removeChild(sectionError);
+    return;
+  }
+
+  if (document.querySelector('.success') !== null) {
+    const sectionError = document.querySelector('.success');
+    document.querySelector('.pictures').removeChild(sectionError);
+    close();
+    document.removeEventListener('keydown', onDocumentKeydown);
+    return;
+  }
+
+  if (evt.target === changeImg) {
+    close();
+  }
+});
+
+const closeButton = document.querySelector('#upload-cancel');
+closeButton.addEventListener('click', () => {
+  close();
+});
 
 const validateForm = () => {
   const validateHashTag = (value) => /^#[a-zа-яё0-9]{1,20}$/i.test(value);
